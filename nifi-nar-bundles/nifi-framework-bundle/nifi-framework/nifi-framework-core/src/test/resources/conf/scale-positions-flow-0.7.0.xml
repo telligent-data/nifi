@@ -18,7 +18,7 @@
   <maxEventDrivenThreadCount>5</maxEventDrivenThreadCount>
   <rootGroup>
     <id>32b64df5-b2f5-4c47-9880-3d0bd5c8ff15</id>
-    <name>NiFi Flow</name>
+    <name>TDP Flow</name>
     <position x="0.0" y="0.0"/>
     <comment/>
     <processor>

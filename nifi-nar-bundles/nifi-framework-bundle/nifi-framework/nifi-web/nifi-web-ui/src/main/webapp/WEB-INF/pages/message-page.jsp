@@ -20,7 +20,7 @@
     <head>
         <title><%= request.getAttribute("title") == null ? "" : org.apache.nifi.util.EscapeUtils.escapeHtml(request.getAttribute("title").toString()) %></title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="shortcut icon" href="images/nifi16.ico"/>
+        <link rel="shortcut icon" href="images/tdp-icon32.png"/>
         <link rel="stylesheet" href="/nifi/assets/reset.css/reset.css" type="text/css" />
         <link rel="stylesheet" href="/nifi/css/common-ui.css" type="text/css" />
         <link rel="stylesheet" href="/nifi/fonts/flowfont/flowfont.css" type="text/css" />

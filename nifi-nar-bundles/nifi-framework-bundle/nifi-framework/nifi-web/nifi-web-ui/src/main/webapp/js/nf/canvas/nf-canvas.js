@@ -608,7 +608,7 @@
             // define a function for update the flow status dimensions
             var updateFlowStatusContainerSize = function () {
                 $('#flow-status-container').css({
-                    'width': ((($('#nifi-logo').width() + $('#component-container').width())/$(window).width())*100)*2 + '%'
+                    'width': ((($('#td-logo').width() + $('#component-container').width())/$(window).width())*100)*2 + '%'
                 });
             };
             updateFlowStatusContainerSize();

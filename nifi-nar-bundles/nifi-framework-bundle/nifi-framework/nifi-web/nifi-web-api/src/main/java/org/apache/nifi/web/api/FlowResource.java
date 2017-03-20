@@ -247,10 +247,10 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response generateClientId() {
@@ -268,7 +268,7 @@ public class FlowResource extends ApplicationResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("config")
     @ApiOperation(
-            value = "Retrieves the configuration for this NiFi flow",
+            value = "Retrieves the configuration for this TDP flow",
             response = FlowConfigurationEntity.class,
             authorizations = {
                     @Authorization(value = "Read - /flow", type = "")
@@ -276,10 +276,10 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getFlowConfig() {
@@ -351,11 +351,11 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
                     @ApiResponse(code = 404, message = "The specified resource could not be found."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getFlow(
@@ -399,10 +399,10 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getControllerServicesFromController() {
@@ -445,10 +445,10 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getControllerServicesFromGroup(
@@ -499,10 +499,10 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getReportingTasks() {
@@ -548,11 +548,11 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
                     @ApiResponse(code = 404, message = "The specified resource could not be found."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response scheduleComponents(
@@ -689,7 +689,7 @@ public class FlowResource extends ApplicationResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("search-results")
     @ApiOperation(
-            value = "Performs a search against this NiFi using the specified search term",
+            value = "Performs a search against this TDP instance using the specified search term",
             notes = "Only search results from authorized components will be returned.",
             response = SearchResultsEntity.class,
             authorizations = {
@@ -698,10 +698,10 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response searchFlow(@QueryParam("q") @DefaultValue(StringUtils.EMPTY) String value) throws InterruptedException {
@@ -729,7 +729,7 @@ public class FlowResource extends ApplicationResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("status")
     @ApiOperation(
-            value = "Gets the current status of this NiFi",
+            value = "Gets the current status of this TDP instance",
             response = ControllerStatusEntity.class,
             authorizations = {
                     @Authorization(value = "Read - /flow", type = "")
@@ -737,10 +737,10 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getControllerStatus() throws InterruptedException {
@@ -772,7 +772,7 @@ public class FlowResource extends ApplicationResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("cluster/summary")
     @ApiOperation(
-            value = "The cluster summary for this NiFi",
+            value = "The cluster summary for this TDP instance",
             response = ClusteSummaryEntity.class,
             authorizations = {
                     @Authorization(value = "Read - /flow", type = "")
@@ -780,10 +780,10 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getClusterSummary() throws InterruptedException {
@@ -839,11 +839,11 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
                     @ApiResponse(code = 404, message = "The specified resource could not be found."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getBulletins() {
@@ -868,7 +868,7 @@ public class FlowResource extends ApplicationResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("banners")
     @ApiOperation(
-            value = "Retrieves the banners for this NiFi",
+            value = "Retrieves the banners for this TDP instance",
             response = BannerEntity.class,
             authorizations = {
                     @Authorization(value = "Read - /flow", type = "")
@@ -876,10 +876,10 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getBanners() {
@@ -913,7 +913,7 @@ public class FlowResource extends ApplicationResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("processor-types")
     @ApiOperation(
-            value = "Retrieves the types of processors that this NiFi supports",
+            value = "Retrieves the types of processors that this TDP instance supports",
             notes = NON_GUARANTEED_ENDPOINT,
             response = ProcessorTypesEntity.class,
             authorizations = {
@@ -922,10 +922,10 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getProcessorTypes(
@@ -971,7 +971,7 @@ public class FlowResource extends ApplicationResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("controller-service-types")
     @ApiOperation(
-            value = "Retrieves the types of controller services that this NiFi supports",
+            value = "Retrieves the types of controller services that this TDP instance supports",
             notes = NON_GUARANTEED_ENDPOINT,
             response = ControllerServiceTypesEntity.class,
             authorizations = {
@@ -980,10 +980,10 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getControllerServiceTypes(
@@ -1055,7 +1055,7 @@ public class FlowResource extends ApplicationResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("reporting-task-types")
     @ApiOperation(
-            value = "Retrieves the types of reporting tasks that this NiFi supports",
+            value = "Retrieves the types of reporting tasks that this TDP instance supports",
             notes = NON_GUARANTEED_ENDPOINT,
             response = ReportingTaskTypesEntity.class,
             authorizations = {
@@ -1064,10 +1064,10 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getReportingTaskTypes(
@@ -1112,7 +1112,7 @@ public class FlowResource extends ApplicationResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("prioritizers")
     @ApiOperation(
-            value = "Retrieves the types of prioritizers that this NiFi supports",
+            value = "Retrieves the types of prioritizers that this TDP instance supports",
             notes = NON_GUARANTEED_ENDPOINT,
             response = PrioritizerTypesEntity.class,
             authorizations = {
@@ -1121,10 +1121,10 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getPrioritizers() throws InterruptedException {
@@ -1152,7 +1152,7 @@ public class FlowResource extends ApplicationResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("about")
     @ApiOperation(
-            value = "Retrieves details about this NiFi to put in the About dialog",
+            value = "Retrieves details about this TDP instance to put in the About dialog",
             response = AboutEntity.class,
             authorizations = {
                     @Authorization(value = "Read - /flow", type = "")
@@ -1160,10 +1160,10 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getAboutInfo() {
@@ -1171,7 +1171,7 @@ public class FlowResource extends ApplicationResource {
 
         // create the about dto
         final AboutDTO aboutDTO = new AboutDTO();
-        aboutDTO.setTitle("NiFi");
+        aboutDTO.setTitle("TDP");
         aboutDTO.setUri(generateResourceUri());
         aboutDTO.setTimezone(new Date());
 
@@ -1232,10 +1232,10 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getBulletinBoard(
@@ -1334,11 +1334,11 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
                     @ApiResponse(code = 404, message = "The specified resource could not be found."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getProcessorStatus(
@@ -1407,11 +1407,11 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
                     @ApiResponse(code = 404, message = "The specified resource could not be found."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getInputPortStatus(
@@ -1480,11 +1480,11 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
                     @ApiResponse(code = 404, message = "The specified resource could not be found."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getOutputPortStatus(
@@ -1553,11 +1553,11 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
                     @ApiResponse(code = 404, message = "The specified resource could not be found."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getRemoteProcessGroupStatus(
@@ -1629,11 +1629,11 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
                     @ApiResponse(code = 404, message = "The specified resource could not be found."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getProcessGroupStatus(
@@ -1707,11 +1707,11 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
                     @ApiResponse(code = 404, message = "The specified resource could not be found."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getConnectionStatus(
@@ -1784,11 +1784,11 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
                     @ApiResponse(code = 404, message = "The specified resource could not be found."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getProcessorStatusHistory(
@@ -1830,11 +1830,11 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
                     @ApiResponse(code = 404, message = "The specified resource could not be found."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getProcessGroupStatusHistory(
@@ -1876,11 +1876,11 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
                     @ApiResponse(code = 404, message = "The specified resource could not be found."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getRemoteProcessGroupStatusHistory(
@@ -1922,11 +1922,11 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
                     @ApiResponse(code = 404, message = "The specified resource could not be found."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getConnectionStatusHistory(
@@ -1991,10 +1991,10 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response queryHistory(
@@ -2129,11 +2129,11 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
                     @ApiResponse(code = 404, message = "The specified resource could not be found."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getAction(
@@ -2180,11 +2180,11 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
                     @ApiResponse(code = 404, message = "The specified resource could not be found."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getComponentHistory(
@@ -2281,10 +2281,10 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response getTemplates() {
@@ -2333,11 +2333,11 @@ public class FlowResource extends ApplicationResource {
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 400, message = "NiFi was unable to complete the request because it was invalid. The request should not be retried without modification."),
+                    @ApiResponse(code = 400, message = "TDP was unable to complete the request because it was invalid. The request should not be retried without modification."),
                     @ApiResponse(code = 401, message = "Client could not be authenticated."),
                     @ApiResponse(code = 403, message = "Client is not authorized to make this request."),
                     @ApiResponse(code = 404, message = "The specified resource could not be found."),
-                    @ApiResponse(code = 409, message = "The request was valid but NiFi was not in the appropriate state to process it. Retrying the same request later may be successful.")
+                    @ApiResponse(code = 409, message = "The request was valid but TDP was not in the appropriate state to process it. Retrying the same request later may be successful.")
             }
     )
     public Response searchCluster(

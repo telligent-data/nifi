@@ -18,7 +18,7 @@
   <maxEventDrivenThreadCount>5</maxEventDrivenThreadCount>
   <rootGroup>
     <id>00000000-0000-0000-0000-000000000000</id>
-    <name>Empty NiFi Flow</name>
+    <name>Empty TDP Flow</name>
     <position x="0.0" y="0.0"/>
     <comment/>
   </rootGroup>

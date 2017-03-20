@@ -376,7 +376,7 @@
 
                         this.getElement().modal({
                             scrollableContentStyle: 'scrollable',
-                            headerText: 'About Apache NiFi',
+                            headerText: 'About the Telligent Data Pipeline',
                             handler: {
                                 resize: resizeAbout
                             },

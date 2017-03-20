@@ -14,23 +14,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-Apache NiFi User Guide
-======================
-Apache NiFi Team <dev@nifi.apache.org>
-:homepage: http://nifi.apache.org
+Telligent Data Pipeline User Guide
+=================================
+TDP Team <gene@telligentdata.com>
+:homepage: https://www.telligentdata.com
 
 
 Introduction
 ------------
-Apache NiFi is a dataflow system based on the concepts of flow-based programming. It supports
-powerful and scalable directed graphs of data routing, transformation, and system mediation logic. NiFi has
+The Telligent Data Pipeline is a dataflow system based on the concepts of flow-based programming. It supports
+powerful and scalable directed graphs of data routing, transformation, and system mediation logic. TDP has
 a web-based user interface for design, control, feedback, and monitoring of dataflows. It is highly configurable
 along several dimensions of quality of service, such as loss-tolerant versus guaranteed delivery, low latency versus
-high throughput, and priority-based queuing. NiFi provides fine-grained data provenance for all data received, forked, joined
+high throughput, and priority-based queuing. TDP provides fine-grained data provenance for all data received, forked, joined
 cloned, modified, sent, and ultimately dropped upon reaching its configured end-state.
-
-See the link:administration-guide.html[System Administrator’s Guide] for information about system requirements, installation, and configuration. Once NiFi is installed,
-use a supported web browser to view the UI.
 
 
 Browser Support
@@ -50,7 +47,7 @@ the current stable release is 45.X then the officially supported versions will b
 For Safari, which releases major versions much less frequently, Current and Current - 1 simply represent the two latest releases.
 
 The supported browser versions are driven by the capabilities the UI employs and the dependencies it uses. UI features will be developed and tested
-against the supported browsers. Any problem using a supported browser should be reported to Apache NiFi.
+against the supported browsers. Any problem using a supported browser should be reported to Telligent Data.
 
 === Unsupported Browsers
 
@@ -67,9 +64,9 @@ UI may become unavailable.
 [template="glossary", id="terminology"]
 Terminology
 -----------
-*DataFlow Manager*: A DataFlow Manager (DFM) is a NiFi user who has permissions to add, remove, and modify components of a NiFi dataflow.
+*DataFlow Manager*: A DataFlow Manager (DFM) is a TDP user who has permissions to add, remove, and modify components of a TDP dataflow.
 
-*FlowFile*: The FlowFile represents a single piece of data in NiFi. A FlowFile is made up of two components:
+*FlowFile*: The FlowFile represents a single piece of data in TDP. A FlowFile is made up of two components:
 	FlowFile Attributes and FlowFile Content.
 	Content is the data that is represented by the FlowFile. Attributes are characteristics that provide information or
 	context about the data; they are made up of key-value pairs.
@@ -79,7 +76,7 @@ Terminology
 - *filename*: A human-readable filename that may be used when storing the data to disk or in an external service
 - *path*: A hierarchically structured value that can be used when storing data to disk or an external service so that the data is not stored in a single directory
 
-*Processor*: The Processor is the NiFi component that is used to listen for incoming data; pull data from external sources;
+*Processor*: The Processor is the TDP component that is used to listen for incoming data; pull data from external sources;
 	publish data to external sources; and route, transform, or extract information from FlowFiles.
 
 *Relationship*: Each Processor has zero or more Relationships defined for it. These Relationships are named to indicate the result of processing a FlowFile.
@@ -87,69 +84,65 @@ Terminology
 	A DFM is then able to connect each of these Relationships to other components in order to specify where the FlowFile should
 	go next under each potential processing result.
 
-*Connection*: A DFM creates an automated dataflow by dragging components from the Components part of the NiFi toolbar to the canvas
+*Connection*: A DFM creates an automated dataflow by dragging components from the Components part of the TDP toolbar to the canvas
 	and then connecting the components together via Connections. Each connection consists of one or more Relationships.
 	For each Connection that is drawn, a DFM can determine which Relationships should be used for the Connection.
 	This allows data to be routed in different ways based on its processing outcome. Each connection houses a FlowFile Queue.
 	When a FlowFile is transferred to a particular Relationship, it is added to the queue belonging to the associated Connection.
 
-*Controller Service*: Controller Services are extension points that, after being added and configured by a DFM in the User Interface, will start up when NiFi starts up and provide information for use by other components (such as processors or other controller services). A common Controller Service used by several components is the StandardSSLContextService. It provides the ability to configure keystore and/or truststore properties once and reuse that configuration throughout the application. The idea is that, rather than configure this information in every processor that might need it, the controller service provides it for any processor to use as needed.
+*Controller Service*: Controller Services are extension points that, after being added and configured by a DFM in the User Interface, will start up when TDP starts up and provide information for use by other components (such as processors or other controller services). A common Controller Service used by several components is the StandardSSLContextService. It provides the ability to configure keystore and/or truststore properties once and reuse that configuration throughout the application. The idea is that, rather than configure this information in every processor that might need it, the controller service provides it for any processor to use as needed.
 
-*Reporting Task*: Reporting Tasks run in the background to provide statistical reports about what is happening in the NiFi instance. The DFM adds and configures Reporting Tasks in the User Interface as desired. Common reporting tasks include the ControllerStatusReportingTask, MonitorDiskUsage reporting task, MonitorMemory reporting task, and the StandardGangliaReporter.
+*Reporting Task*: Reporting Tasks run in the background to provide statistical reports about what is happening in the TDP instance. The DFM adds and configures Reporting Tasks in the User Interface as desired. Common reporting tasks include the ControllerStatusReportingTask, MonitorDiskUsage reporting task, MonitorMemory reporting task, and the StandardGangliaReporter.
 
-*Funnel*: A funnel is a NiFi component that is used to combine the data from several Connections into a single Connection.
+*Funnel*: A funnel is a TDP component that is used to combine the data from several Connections into a single Connection.
 
 *Process Group*: When a dataflow becomes complex, it often is beneficial to reason about the dataflow at a higher, more abstract level.
-	NiFi allows multiple components, such as Processors, to be grouped together into a Process Group.
-	The NiFi User Interface then makes it easy for a DFM to connect together multiple Process Groups into a logical dataflow,
+	TDP allows multiple components, such as Processors, to be grouped together into a Process Group.
+	The TDP User Interface then makes it easy for a DFM to connect together multiple Process Groups into a logical dataflow,
 	as well as allowing the DFM to enter a Process Group in order to see and manipulate the components within the Process Group.
 
 *Port*: Dataflows that are constructed using one or more Process Groups need a way to connect a Process Group to other dataflow components.
 	This is achieved by using Ports. A DFM can add any number of Input Ports and Output Ports to a Process Group and name these ports appropriately.
 
-*Remote Process Group*: Just as data is transferred into and out of a Process Group, it is sometimes necessary to transfer data from one instance of NiFi to another.
-	While NiFi provides many different mechanisms for transferring data from one system to another, Remote Process Groups are often the easiest way to accomplish
-	this if transferring data to another instance of NiFi.
+*Remote Process Group*: Just as data is transferred into and out of a Process Group, it is sometimes necessary to transfer data from one instance of TDP to another.
+	While TDP provides many different mechanisms for transferring data from one system to another, Remote Process Groups are often the easiest way to accomplish
+	this if transferring data to another instance of TDP.
 
-*Bulletin*: The NiFi User Interface provides a significant amount of monitoring and feedback about the current status of the application.
+*Bulletin*: The TDP User Interface provides a significant amount of monitoring and feedback about the current status of the application.
 	In addition to rolling statistics and the current status provided for each component, components are able to report Bulletins.
 	Whenever a component reports a Bulletin, a bulletin icon is displayed on that component. System-level bulletins are displayed on the Status bar near the top of the page.
 	Using the mouse to hover over that icon will provide a tool-tip that shows the time and severity (Debug, Info, Warning, Error) of the Bulletin,
 	as well as the message of the Bulletin.
 	Bulletins from all components can also be viewed and filtered in the Bulletin Board Page, available in the Global Menu.
 
-*Template*: Often times, a dataflow is comprised of many sub-flows that could be reused. NiFi allows DFMs to select a part of the dataflow
+*Template*: Often times, a dataflow is comprised of many sub-flows that could be reused. TDP allows DFMs to select a part of the dataflow
 	(or the entire dataflow) and create a Template. This Template is given a name and can then be dragged onto the canvas just like the other components.
 	As a result, several components may be combined together to make a larger building block from which to create a dataflow.
-	These templates can also be exported as XML and imported into another NiFi instance, allowing these building blocks to be shared.
+	These templates can also be exported as XML and imported into another TDP instance, allowing these building blocks to be shared.
 
-*flow.xml.gz*: Everything the DFM puts onto the NiFi User Interface canvas is written, in real time, to one file called the flow.xml.gz. This file is located in the nifi/conf directory by default.
+*flow.xml.gz*: Everything the DFM puts onto the TDP User Interface canvas is written, in real time, to one file called the flow.xml.gz.
 	Any change made on the canvas is automatically saved to this file, without the user needing to click a "save" button.
-	In addition, NiFi automatically creates a backup copy of this file in the archive directory when it is updated.
-	You can use these archived files to rollback flow configuration. To do so, stop NiFi, replace flow.xml.gz with a desired backup copy, then restart NiFi.
-	In a clustered environment, stop the entire NiFi cluster, replace the flow.xml.gz of one of nodes, and restart the node. Remove flow.xml.gz from other nodes.
+	In addition, TDP automatically creates a backup copy of this file in the archive directory when it is updated.
+	You can use these archived files to rollback flow configuration. To do so, stop TDP, replace flow.xml.gz with a desired backup copy, then restart TDP.
+	In a clustered environment, stop the entire TDP cluster, replace the flow.xml.gz of one of nodes, and restart the node. Remove flow.xml.gz from other nodes.
 	Once you confirmed the node starts up as a one-node cluster, start the other nodes. The replaced flow configuration will be synchronized across the cluster.
-	The name and location of flow.xml.gz, and auto archive behavior are configurable. See the link:administration-guide.html#core-properties-br[System Administrator’s Guide] for further details.
+	The name and location of flow.xml.gz, and auto archive behavior are configurable.
 
 
 
 [[User_Interface]]
-NiFi User Interface
+TDP User Interface
 -------------------
 
-The NiFi UI provides mechanisms for creating automated dataflows, as well as visualizing,
+The TDP UI provides mechanisms for creating automated dataflows, as well as visualizing,
 editing, monitoring, and administering those dataflows. The UI can be broken down into several segments,
 each responsible for different functionality of the application. This section provides screenshots of the
 application and highlights the different segments of the UI. Each segment is discussed in further detail later
 in the document.
 
-When the application is started, the user is able to navigate to the UI by going to the default address of
-`http://<hostname>:8080/nifi` in a web browser. There are no permissions configured by default, so anyone is
-able to view and modify the dataflow. For information on securing the system, see the link:administration-guide.html[System Administrator’s Guide].
-
 When a DFM navigates to the UI for the first time, a blank canvas is provided on which a dataflow can be built:
 
-image::nifi-toolbar-components.png["NiFi Components Toolbar"]
+image::nifi-toolbar-components.png["TDP Components Toolbar"]
 
 The Components Toolbar runs across the top left portion of your screen. It consists of the components you can drag onto the
 canvas to build your dataflow. Each component is described in more detail in link:building-dataflow.html[Building a Dataflow].
@@ -157,7 +150,7 @@ canvas to build your dataflow. Each component is described in more detail in lin
 The Status Bar is under the Components Toolbar. The Status bar provides information about how many Processors exist on the canvas in
 each state (Stopped, Running, Invalid, Disabled), how many Remote Process Groups exist on the canvas in each state
 (Transmitting, Not Transmitting), the number of threads that are currently active in the flow, the amount of data that currently
-exists in the flow, and the timestamp at which all of this information was last refreshed. Additionally, if the instance of NiFi is clustered, the Status bar shows how many nodes
+exists in the flow, and the timestamp at which all of this information was last refreshed. Additionally, if the instance of TDP is clustered, the Status bar shows how many nodes
 are in the cluster and how many are currently connected.
 
 The Operate Palette sits to the left-hand side of the screen. It consists of buttons that are
@@ -168,7 +161,7 @@ On the right side of the canvas is Search, and the Global Menu. You can use Sear
 canvas and can to search by component name, type, identifier, configuration properties, and their values. The Global Menu
 contains options that allow you to manipulate existing components on the canvas:
 
-image::global-menu.png[NiFi Global Menu]
+image::global-menu.png[TDP Global Menu]
 
 Additionally, the UI has some features that allow you to easily navigate around the canvas. You can use the
 Navigate Palette to pan around the canvas, and to zoom in and out. The “Birds Eye View” of the dataflow provides a high-level
@@ -177,15 +170,15 @@ bottom of the screen. As you navigate into and out of Process Groups, the breadc
 the depth in the flow, and each Process Group that you entered to reach this depth. Each of the Process Groups listed in the
 breadcrumbs is a link that will take you back up to that level in the flow.
 
-image::nifi-navigation.png["NiFi Navigation"]
+image::nifi-navigation.png["TDP Navigation"]
 
 [[UI-with-multi-tenant-authorization]]
 Accessing the UI with Multi-Tenant Authorization
 ------------------------------------------------
 Multi-tenant authorization enables multiple groups of users (tenants) to command, control, and observe different parts of the dataflow,
-with varying levels of authorization. When an authenticated user attempts to view or modify a NiFi resource, the system checks whether the
+with varying levels of authorization. When an authenticated user attempts to view or modify a TDP resource, the system checks whether the
 user has privileges to perform that action. These privileges are defined by policies that you can apply system wide or to individual
-components. What this means from a Dataflow Manager perspective is that once you have access to the NiFi canvas, a range of functionality
+components. What this means from a Dataflow Manager perspective is that once you have access to the TDP canvas, a range of functionality
 is visible and available to you, depending on the privileges assigned to you.
 
 The available global access policies are:
@@ -198,7 +191,7 @@ The available global access policies are:
 |access restricted components     |Allows users to create/modify restricted components assuming otherwise sufficient permissions
 |access all policies   |Allows users to view and modify the policies for all components
 |access users/groups   |Allows users view and modify the users and user groups
-|retrieve site-to-site details | Allows other NiFi instances to retrieve Site-To-Site details
+|retrieve site-to-site details | Allows other TDP instances to retrieve Site-To-Site details
 |view system diagnostics  |Allows users to view System Diagnostics
 |proxy user requests  |Allows proxy machines to send requests on the behalf of others
 |access counters  |Allows users to view and modify counters
@@ -215,23 +208,18 @@ The available component-level access policies are:
 |modify the data   |Allows users to empty flowfile queues in outbound connections and to submit replays
 |view the policies |Allows users to view the list of users who can view and modify a component
 |modify the policies  |Allows users to modify the list of users who can view and modify a component
-|retrieve data via site-to-site  |Allows a port to receive data from NiFi instances
-|send data via site-to-site  |Allows a port to send data from NiFi instances
+|retrieve data via site-to-site  |Allows a port to receive data from TDP instances
+|send data via site-to-site  |Allows a port to send data from TDP instances
 |======================
 
-If you are unable to view or modify a NiFi resource, contact your System Administrator or see Configuring Users and Access Policies in the
-link:administration-guide.html[System Administrator’s Guide] for more information.
+If you are unable to view or modify a TDP resource, contact your System Administrator for more information.
 
 [[logging-in]]
 Logging In
 ---------
 
-If NiFi is configured to run securely, users will be able to request access to the DataFlow. For information on configuring NiFi to run
-securely, see the link:administration-guide.html[System Administrator’s Guide]. If NiFi supports anonymous access, users will be given access
-accordingly and given an option to log in.
-
 Clicking the 'login' link will open the log in page. If the user is logging in with their username/password they will be presented with
-a form to do so. If NiFi is not configured to support anonymous access and the user is logging in with their username/password, they will
+a form to do so. If TDP is not configured to support anonymous access and the user is logging in with their username/password, they will
 be immediately sent to the login form bypassing the canvas.
 
 image::login.png["Log In"]
@@ -241,7 +229,7 @@ image::login.png["Log In"]
 Building a DataFlow
 -------------------
 
-A DFM is able to build an automated dataflow using the NiFi UI. Simply drag components from the toolbar to the canvas,
+A DFM is able to build an automated dataflow using the TDP UI. Simply drag components from the toolbar to the canvas,
 configure the components to meet specific needs, and connect
 the components together.
 
@@ -256,7 +244,7 @@ image::components.png["Components"]
 [[processor]]
 image:iconProcessor.png["Processor", width=32]
 *Processor*: The Processor is the most commonly used component, as it is responsible for data ingress, egress, routing, and
-	manipulating. There are many different types of Processors. In fact, this is a very common Extension Point in NiFi,
+	manipulating. There are many different types of Processors. In fact, this is a very common Extension Point in TDP,
 	meaning that many vendors may implement their own Processors to perform whatever functions are necessary for their use case.
 	When a Processor is dragged onto the canvas, the user is presented with a dialog to choose which type of Processor to use:
 
@@ -274,9 +262,9 @@ image::add-processor-with-tag-cloud.png["Add Processor with Tag Cloud"]
 Restricted components will be marked with a
 image:restricted.png["Restricted"]
 icon next to their name. These are components that can be used to execute arbitrary unsanitized code provided by the operator
-through the NiFi REST API/UI or can be used to obtain or alter data on the NiFi host system using the NiFi OS credentials.
-These components could be used by an otherwise authorized NiFi user to go beyond the intended use of the application, escalate
-privilege, or could expose data about the internals of the NiFi process or the host system. All of these capabilities should
+through the TDP REST API/UI or can be used to obtain or alter data on the TDP host system using the TDP OS credentials.
+These components could be used by an otherwise authorized TDP user to go beyond the intended use of the application, escalate
+privilege, or could expose data about the internals of the TDP process or the host system. All of these capabilities should
 be considered privileged, and admins should be aware of these capabilities and explicitly enable them for a subset of trusted users.
 
 Before a user is allowed to create and modify restricted components they must be granted access to restricted components. Refer to
@@ -301,7 +289,7 @@ While the options available from the context menu vary, the following options ar
 - *Status History*: This option opens a graphical representation of the Processor's statistical information over time.
 - *Upstream connections*: This option allows the user to see and "jump to" upstream connections that are coming into the Processor. This is particularly useful when processors connect into and out of other Process Groups.
 - *Downstream connections*: This option allows the user to see and "jump to" downstream connections that are going out of the Processor. This is particularly useful when processors connect into and out of other Process Groups.
-- *Data provenance*: This option displays the NiFi Data Provenance table, with information about data provenance events for the FlowFiles routed through that Processor (see <<data_provenance>>).
+- *Data provenance*: This option displays the TDP Data Provenance table, with information about data provenance events for the FlowFiles routed through that Processor (see <<data_provenance>>).
 - *Usage*: This option takes the user to the Processor's usage documentation.
 - *Change color*: This option allows the user to change the color of the Processor, which can make the visual management of large flows easier.
 - *Center in view*: This option centers the view of the canvas on the given Processor.
@@ -315,12 +303,10 @@ image:iconInputPort.png["Input Port", width=32]
 *Input Port*: Input Ports provide a mechanism for transferring data into a Process Group. When an Input Port is dragged
 onto the canvas, the DFM is prompted to name the Port. All Ports within a Process Group must have unique names.
 
-All components exist only within a Process Group. When a user initially navigates to the NiFi page, the user is placed
+All components exist only within a Process Group. When a user initially navigates to the TDP page, the user is placed
 in the Root Process Group. If the Input Port is dragged onto the Root Process Group, the Input Port provides a mechanism
-to receive data from remote instances of NiFi via <<site-to-site,Site-to-Site>>. In this case, the Input Port can be configured
-to restrict access to appropriate users, if NiFi is configured to run securely. For information on configuring NiFi to run
-securely, see the
-link:administration-guide.html[System Administrator’s Guide].
+to receive data from remote instances of TDP via <<site-to-site,Site-to-Site>>. In this case, the Input Port can be configured
+to restrict access to appropriate users, if TDP is configured to run securely.
 
 
 
@@ -331,11 +317,9 @@ of the Process Group. When an Output Port is dragged onto the canvas, the DFM is
 within a Process Group must have unique names.
 
 If the Output Port is dragged onto the Root Process Group, the Output Port provides a mechanism for sending data to
-remote instances of NiFi via <<site-to-site,Site-to-Site>>. In this case, the Port acts as a queue. As remote instances
-of NiFi pull data from the port, that data is removed from the queues of the incoming Connections. If NiFi is configured
-to run securely, the Output Port can be configured to restrict access to appropriate users. For information on configuring
-NiFi to run securely, see the
-link:administration-guide.html[System Administrator’s Guide].
+remote instances of TDP via <<site-to-site,Site-to-Site>>. In this case, the Port acts as a queue. As remote instances
+of TDP pull data from the port, that data is removed from the queues of the incoming Connections. If TDP is configured
+to run securely, the Output Port can be configured to restrict access to appropriate users.
 
 
 [[process_group]]
@@ -367,9 +351,9 @@ While the options available from the context menu vary, the following options ar
 [[remote_process_group]]
 image:iconRemoteProcessGroup.png["Remote Process Group", width=32]
 *Remote Process Group*: Remote Process Groups appear and behave similar to Process Groups. However, the Remote Process Group (RPG)
-references a remote instance of NiFi. When an RPG is dragged onto the canvas, rather than being prompted for a name, the DFM
-is prompted for the URL of the remote NiFi instance. If the remote NiFi is a clustered instance, the URL that should be used
-is the URL of any NiFi instance in that cluster. When data is transferred to a clustered instance of NiFi
+references a remote instance of TDP. When an RPG is dragged onto the canvas, rather than being prompted for a name, the DFM
+is prompted for the URL of the remote TDP instance. If the remote TDP is a clustered instance, the URL that should be used
+is the URL of the remote instance's TDP Cluster Manager (NCM). When data is transferred to a clustered instance of TDP
 via an RPG, the RPG will first connect to the remote instance whose URL is configured to determine which nodes are in the cluster and
 how busy each node is. This information is then used to load balance the data that is pushed to each node. The remote instances are
 then interrogated periodically to determine information about any nodes that are dropped from or added to the cluster and to
@@ -383,14 +367,14 @@ image::nifi-rpg-menu.png["Remote Process Group Menu"]
 While the options available from the context menu vary, the following options are typically available when you have full privileges to work with the Remote Process Group:
 
 - *Configure*: This option allows the user to establish or change the configuration of the Remote Process Group.
-- *Remote Ports*: This option allows the user to see input ports and/or output ports that exist on the remote instance of NiFi that the Remote Process Group is connected to. Note that if the Site-to-Site configuration is secure, only the ports that the connecting NiFi has been given accessed to will be visible.
-- *Enable transmission*: Makes the transmission of data between NiFi instances active (see <<Remote_Group_Transmission>>).
-- *Disable transmission*: Disables the transmission of data between NiFi instances.
+- *Remote Ports*: This option allows the user to see input ports and/or output ports that exist on the remote instance of TDP that the Remote Process Group is connected to. Note that if the Site-to-Site configuration is secure, only the ports that the connecting TDP has been given accessed to will be visible.
+- *Enable transmission*: Makes the transmission of data between TDP instances active. (See <<Remote_Group_Transmission>> )
+- *Disable transmission*: Disables the transmission of data between TDP instances.
 - *Status History*: This option opens a graphical representation of the Remote Process Group's statistical information over time.
 - *Upstream connections*: This option allows the user to see and "jump to" upstream connections that are coming into the Remote Process Group.
 - *Downstream connections*: This option allows the user to see and "jump to" downstream connections that are going out of the Remote Process Group.
-- *Refresh*: This option refreshes the view of the status of the remote NiFi instance.
-- *Go to*: This option opens a view of the remote NiFi instance in a new tab of the browser. Note that if the Site-to-Site configuration is secure, the user must have access to the remote NiFi instance in order to view it.
+- *Refresh*: This option refreshes the view of the status of the remote TDP instance.
+- *Go to*: This option opens a view of the remote TDP instance in a new tab of the browser. Note that if the Site-to-Site configuration is secure, the user must have access to the remote TDP instance in order to view it.
 - *Center in view*: This option centers the view of the canvas on the given Remote Process Group.
 - *Copy*: This option places a copy of the selected Process Group on the clipboard, so that it may be pasted elsewhere on the canvas by right-clicking on the canvas and selecting Paste. The Copy/Paste actions also may be done using the keystrokes Ctrl-C (Command-C) and Ctrl-V (Command-V).
 - *Delete*: This option allows the DFM to delete a Remote Process Group from the canvas.
@@ -677,7 +661,7 @@ for all the Processors that are available. Click on the desired Processor to vie
 
 [[Using_Custom_Properties]]
 === Using Custom Properties with Expression Language
-You can use NiFi Expression Language to reference FlowFile attributes, compare them to other values,
+You can use TDP Expression Language to reference FlowFile attributes, compare them to other values,
 and manipulate their values when you are creating and configuring dataflows.
 
 In addition to using FlowFile attributes, system properties, and environment properties within Express
@@ -688,8 +672,7 @@ for connection, server, and service properties, for easier dataflow configuratio
 To create custom properties for use with Expression Language, identify one or more sets of key/value
 pairs, and give them to your system administrator.
 
-NiFi properties have resolution precedence of which you should be aware when creating custom properties: 
-
+TDP properties have resolution precedence of which you should be aware when creating custom properties: 
 
 * Processor-specific attributes
 * FlowFile properties 
@@ -701,17 +684,14 @@ NiFi properties have resolution precedence of which you should be aware when cre
 
 When you are creating custom properties, ensure that each custom property contains a distinct property value,
 so that it is not overridden by existing environment properties, system properties, or FlowFile attributes.
-Once you have added the new custom properties, ensure that you have updated the nifi.variable.registry.properties
-field in the nifi.properties file, with the custom properties location.
 
 For more information on Expression Language, see the link:expression-language-guide.html[Expression Lanuaguage Guide].
-For information on how to define custom properties, see the link:administration-guide.html[System Administrator’s Guide].
 
 [[Controller_Services]]
 === Controller Services
 
 Controller Services are available for reporting tasks, processors, and other services to utilize for
-configuration or task execution. You can use the NiFi UI to add Controller Services for either reporting
+configuration or task execution. You can use the TDP UI to add Controller Services for either reporting
 tasks or dataflows.
 
 Your ability to view and add Controller Services is dependent on the roles and privileges assigned to you. If you
@@ -727,12 +707,12 @@ Services whether you are adding it for a reporting task or a dataflow.
 ==== Adding Controller Settings for Reporting Tasks
 
 To add a Controller Service for a reporting task, select Controller Settings from the Global Menu.
-This displays the NiFi Settings window.
+This displays the TDP Settings window.
 
 
-The NiFi Settings window has three tabs across the top: General, Controller Services, and Reporting Tasks. The General tab is
-for settings that pertain to general information about the NiFi instance. For example, here, the DFM can provide a unique name for
-the overall dataflow, as well as comments that describe the flow. Be aware that this information is visible to any other NiFi instance
+The TDP Settings window has three tabs across the top: General, Controller Services, and Reporting Tasks. The General tab is
+for settings that pertain to general information about the TDP instance. For example, here, the DFM can provide a unique name for
+the overall dataflow, as well as comments that describe the flow. Be aware that this information is visible to any other TDP instance
 that connects remotely to this instance (using Remote Process Groups, a.k.a., Site-to-Site).
 
 The General tab also provides settings for the overall maximum thread counts of the instance.
@@ -832,7 +812,7 @@ When you want to run the Reporting Task, click the Start button in the far-right
 === Connecting Components
 
 Once processors and other components have been added to the canvas and configured, the next step is to connect them
-to one another so that NiFi knows what to do with each FlowFile after it has been processed. This is accomplished by creating a
+to one another so that TDP knows what to do with each FlowFile after it has been processed. This is accomplished by creating a
 Connection between each component. When the user hovers the mouse over the center of a component, a new Connection icon (
 image:addConnect.png["Connection Bubble"]
 ) appears:
@@ -873,13 +853,12 @@ that are active for the Connection.
 FlowFile expiration is a concept by which data that cannot be processed in a timely fashion can be automatically removed from the flow.
 This is useful, for example, when the volume of data is expected to exceed the volume that can be sent to a remote site.
 In this case, the expiration can be used in conjunction with Prioritizers to ensure that the highest priority data is
-processed first and then anything that cannot be processed within a certain time period (one hour, for example) can be dropped. The expiration period is based on the time that the data entered the NiFi instance. In other words, if the file expiration on a given connection is set to '1 hour', and a file that has been in the NiFi instance for one hour reaches that connection, it will expire. The default
+processed first and then anything that cannot be processed within a certain time period (one hour, for example) can be dropped. The expiration period is based on the time that the data entered the TDP instance. In other words, if the file expiration on a given connection is set to '1 hour', and a file that has been in the TDP instance for one hour reaches that connection, it will expire. The default
 value of `0 sec` indicates that the data will never expire. When a file expiration other than '0 sec' is set, a small clock icon appears on the connection label, so the DFM can see it at-a-glance when looking at a flow on the canvas.
 
 image:file_expiration_clock.png["File Expiration Indicator"]
 
 ===== Back Pressure
-NiFi provides two configuration elements for Back Pressure. These thresholds indicate how much data should be
 allowed to exist in the queue before the component that is the source of the Connection is no longer scheduled to run.
 This allows the system to avoid being overrun with data. The first option provided is the ``Back pressure object threshold.''
 This is the number of FlowFiles that can be in the queue before back pressure is applied. The second configuration option
@@ -963,21 +942,18 @@ image::valid-processor.png["Valid Processor"]
 [[site-to-site]]
 === Site-to-Site
 
-When sending data from one instance of NiFi to another, there are many different protocols that can be used. The preferred
-protocol, though, is the NiFi Site-to-Site Protocol. Site-to-Site makes it easy to securely and efficiently transfer data to/from nodes in
-one NiFi instance or data producing application to nodes in another NiFi instance or other consuming application.
+When sending data from one instance of TDP to another, there are many different protocols that can be used. The preferred
+protocol, though, is the TDP Site-to-Site Protocol. Site-to-Site makes it easy to securely and efficiently transfer data to/from nodes in
+one TDP instance or data producing application to nodes in another TDP instance or other consuming application.
 
 Using Site-to-Site provides the following benefits:
 
 * Easy to configure
-** After entering the URL of the remote NiFi instance, the available ports (endpoints) are automatically discovered and provided in a drop-down list
+** After entering the URL of the remote TDP instance, the available ports (endpoints) are automatically discovered and provided in a drop-down list
 
 * Secure
 ** Site-to-Site optionally makes use of Certificates in order to encrypt data and provide authentication and authorization. Each port can be configured
-   to allow only specific users, and only those users will be able to see that the port even exists. For information on configuring the Certificates,
-   see the
-link:administration-guide.html#security-configuration[Security Configuration] section of the
-link:administration-guide.html[System Administrator’s Guide].
+   to allow only specific users, and only those users will be able to see that the port even exists.
 
 * Scalable
 ** As nodes in the remote cluster change, those changes are automatically detected and data is scaled out across all nodes in the cluster.
@@ -997,30 +973,30 @@ link:administration-guide.html[System Administrator’s Guide].
 * FlowFiles maintain attributes
 ** When a FlowFile is transferred over this protocol, all of the FlowFile's attributes
    are automatically transferred with it. This can be very advantageous in many situations, as all of the context and enrichment
-   that has been determined by one instance of NiFi travels with the data, making for easy routing of the data and allowing users
+   that has been determined by one instance of TDP travels with the data, making for easy routing of the data and allowing users
    to easily inspect the data.
 
 * Adaptable
 ** As new technologies and ideas emerge, the protocol for handling Site-to-Site communications are able to change with them. When a connection is
-   made to a remote NiFi instance, a handshake is performed in order to negotiate which protocol and which version of the protocol will be used.
+   made to a remote TDP instance, a handshake is performed in order to negotiate which protocol and which version of the protocol will be used.
    This allows new capabilities to be added while still maintaining backward compatibility with all older instances. Additionally, if a vulnerability
-   or deficiency is ever discovered in a protocol, it allows a newer version of NiFi to forbid communication over the compromised versions of the protocol.
+   or deficiency is ever discovered in a protocol, it allows a newer version of TDP to forbid communication over the compromised versions of the protocol.
 
-Site-to-Site is a protocol transferring data between two NiFi instances. Both end can be a standalone NiFi or a NiFi cluster. In this section, the NiFi instance initiates the communications is called _Site-to-Site client NiFi instance_ and the other end as _Site-to-Site server NiFi instance_ to clarify what configuration needed on each NiFi instances.
+Site-to-Site is a protocol transferring data between two TDP instances. Both end can be a standalone TDP or a TDP cluster. In this section, the TDP instance initiates the communications is called _Site-to-Site client TDP instance_ and the other end as _Site-to-Site server TDP instance_ to clarify what configuration needed on each TDP instances.
 
-A NiFi instance can be both client and server for Site-to-Site protocol, however, it can only be a client or server within a specific Site-to-Site communication. For example, if there are three NiFi instances A, B and C. A pushes data to B, and B pulls data from C. _A -- push -> B <- pull -- C_. Then B is not only a _server_ in the communication between A and B, but also a _client_ in B and C.
+A TDP instance can be both client and server for Site-to-Site protocol, however, it can only be a client or server within a specific Site-to-Site communication. For example, if there are three TDP instances A, B and C. A pushes data to B, and B pulls data from C. _A -- push -> B <- pull -- C_. Then B is not only a _server_ in the communication between A and B, but also a _client_ in B and C.
 
-It is important to understand which NiFi instance will be the client or server in order to design your data flow, and configure each instance accordingly. Here is a summary of what components run on which side based on data flow direction:
+It is important to understand which TDP instance will be the client or server in order to design your data flow, and configure each instance accordingly. Here is a summary of what components run on which side based on data flow direction:
 
 - Push: a client _sends_ data to a Remote Process Group, the server _receives_ it with an Input Port
 
 - Pull: a client _receives_ data from a Remote Process Group, the server _sends_ data through an Output Port
 
-==== Configure Site-to-Site client NiFi instance
+==== Configure Site-to-Site client TDP instance
 
 [[Site-to-Site_Remote_Process_Group]]
-*Remote Process Group*: In order to communicate with a remote NiFi instance via Site-to-Site, simply drag a <<remote_process_group,Remote Process Group>> onto the canvas
-and enter the URL of the remote NiFi instance (for more information on the components of a Remote Process Group, see
+*Remote Process Group*: In order to communicate with a remote TDP instance via Site-to-Site, simply drag a <<remote_process_group,Remote Process Group>> onto the canvas
+and enter the URL of the remote TDP instance (for more information on the components of a Remote Process Group, see
 <<Remote_Group_Transmission,Remote Process Group Transmission>> section of this guide.) The URL is the same
 URL you would use to go to that instance's User Interface. At that point, you can drag a connection to or from the Remote Process Group
 in the same way you would drag a connection to or from a Processor or a local Process Group. When you drag the connection, you will have
@@ -1032,15 +1008,14 @@ as this indicates that you will be pulling data from the remote instance. If the
 the ports shown will be the Input Ports of the remote group, as this implies that you will be pushing data to the remote instance.
 
 NOTE: If the remote instance is configured to use secure data transmission, you will see only ports that you are authorized to
-communicate with. For information on configuring NiFi to run securely, see the
-link:administration-guide.html[System Administrator’s Guide].
+communicate with.
 
 [[Site-to-Site_Transport_Protocol]]
 *Transport Protocol*: On a Remote Process Group creation or configuration dialog, you can choose Transport Protocol to use for Site-to-Site communication as shown in the following image:
 
 image:configure-remote-process-group.png["Configure Remote Process Group"]
 
-By default, it is set to _RAW_ which uses raw socket communication using a dedicated port. _HTTP_ transport protocol is especially useful if the remote
+By default, it is set to _RAW_ which uses raw socket communication using a dedicated port. _HTTP_ transport protocol is especially useful if the remote TDP instance is in a restricted network that only allow access through HTTP(S) protocol or only accessible from a specific HTTP Proxy server. For accessing through a HTTP Proxy Server, BASIC and DIGEST authentication are supported.
 NiFi instance is in a restricted network that only allow access through HTTP(S) protocol or only accessible from a specific HTTP Proxy server.
 For accessing through a HTTP Proxy Server, BASIC and DIGEST authentication are supported.
 
@@ -1048,23 +1023,19 @@ For accessing through a HTTP Proxy Server, BASIC and DIGEST authentication are s
 interface both exist, the wired interface may be preferred. This can be configured by specifying the name of the network interface to use in this box. If the
 value entered is not valid, the Remote Process Group will not be valid and will not communicate with other NiFi instances until this is resolved.
 
-==== Configure Site-to-Site server NiFi instance
+==== Configure Site-to-Site server TDP instance
 
 *Retrieve Site-to-Site Details*:  If your NiFi is running securely, in order for another NiFi instance to retrieve information from your instance, it needs to be added to the Global Access "retrieve site-to-site details" policy.  This will allow the other instance to query your instance for details such as name, description, available peers (nodes when clustered), statistics, OS port information and available Input and Output ports. Utilizing Input and Output ports in a secured instance requires additional policy configuration as described below.
 
 [[Site-to-Site_Input_Port]]
-*Input Port*: In order to allow another NiFi instance to push data to your local instance, you can simply drag an <<input_port,Input Port>> onto the Root Process Group of your canvas. After entering a name for the port, it will be added to your flow. You can now right-click on the Input Port and choose Configure in order to adjust the name and the number of concurrent tasks that are used for the port.
+*Input Port*: In order to allow another TDP instance to push data to your local instance, you can simply drag an <<input_port,Input Port>> onto the Root Process Group
 
-If Site-to-Site is configured to run securely, you will need to manage the port's "receive data via site-to-site" component access policy. Only those users who have been added to the policy will be able to communicate with the port.
+After being given access to a particular port, in order to see that port, the operator of a remote TDP instance may need to right-click on their Remote
 
 [[Site-to-Site_Output_Port]]
 *Output Port*: Similar to an Input Port, a DataFlow Manager may choose to add an <<output_port,Output Port>> to the Root Process Group. The Output Port allows an authorized NiFi instance to remotely connect to your instance and pull data from the Output Port. Configuring the Output Port and managing the port's access policies will again allow the DFM to control how many concurrent tasks are allowed, as well as which users are authorized to pull data from the instance being configured.
 
 In addition to other instances of NiFi, some other applications may use a Site-to-Site client in order to push data to or receive data from a NiFi instance. For example, NiFi provides an Apache Storm spout and an Apache Spark Receiver that are able to pull data from NiFi's Root Group Output Ports.
-
-For information on how to enable and configure Site-to-Site on a NiFi instance, see the
-link:administration-guide.html#site_to_site_properties[Site-to-Site Properties] section of the
-link:administration-guide.html[System Administrator’s Guide].
 
 For information on how to configure access policies, see the
 link:administration-guide.html#access-policies[Access Properties] section of the
@@ -1075,12 +1046,12 @@ link:administration-guide.html[System Administrator’s Guide].
 
 This section has described the steps required to build a dataflow. Now, to put it all together. The following example dataflow
 consists of just two processors: GenerateFlowFile and LogAttribute. These processors are normally used for testing, but they can also be used
-to build a quick flow for demonstration purposes and see NiFi in action.
+to build a quick flow for demonstration purposes and see TDP in action.
 
 After you drag the GenerateFlowFile and LogAttribute processors to the canvas and connect them (using the guidelines provided above), configure them as follows:
 
 * Generate FlowFile
-** On the Scheduling tab, set Run schedule to: 5 sec. Note that the GenerateFlowFile processor can create many FlowFiles very quickly; that's why setting the Run schedule is important so that this flow does not overwhelm the system NiFi is running on.
+** On the Scheduling tab, set Run schedule to: 5 sec. Note that the GenerateFlowFile processor can create many FlowFiles very quickly; that's why setting the Run schedule is important so that this flow does not overwhelm the system TDP is running on.
 ** On the Properties tab, set File Size to: 10 kb
 
 * Log Attribute
@@ -1098,7 +1069,7 @@ Now see the following section on how to start and stop the dataflow. When the da
 
 == Command and Control of the DataFlow
 
-When a component is added to the NiFi canvas, it is in the Stopped state. In order to cause the component to
+When a component is added to the TDP canvas, it is in the Stopped state. In order to cause the component to
 be triggered, the component must be started. Once started, the component can be stopped at any time. From a
 Stopped state, the component can be configured, started, or disabled.
 
@@ -1181,7 +1152,7 @@ Only Ports and Processors can be enabled and disabled.
 === Remote Process Group Transmission
 
 Remote Process Groups provide a mechanism for sending data to or retrieving data from a remote instance
-of NiFi. When a Remote Process Group (RPG) is added to the canvas, it is added with the Transmission Disabled,
+of TDP. When a Remote Process Group (RPG) is added to the canvas, it is added with the Transmission Disabled,
 as indicated by the icon (
 image:iconTransmissionInactive.png["Transmission Disabled"]
 ) in the top-left corner. When Transmission is Disabled, it can be enabled by right-clicking on the
@@ -1205,9 +1176,9 @@ configured:
 
 image::remote-group-ports-dialog.png["Remote Process Groups"]
 
-The left-hand side lists all of the Input Ports that the remote instance of NiFi allows data to be sent to.
+The left-hand side lists all of the Input Ports that the remote instance of TDP allows data to be sent to.
 The right-hand side lists all of the Output Ports from which this instance is able to pull data.
-If the remote instance is using secure communications (the URL of the NiFi instance begins with `https://`,
+If the remote instance is using secure communications (the URL of the TDP instance begins with `https://`,
 rather than `http://`), any Ports that the remote instance has not made available to this instance will not
 be shown.
 
@@ -1235,7 +1206,8 @@ or not compression should be used when transmitting data to or from this Port.
 [[navigating]]
 == Navigating within a DataFlow
 
-NiFi provides various mechanisms for getting around a dataflow. The <<User_Interface>> section describes various ways to navigate around the NiFi canvas; however, once a flow exists on the canvas, there are additional ways to get from one component to another. When multiple Process Groups exist in a flow, breadcrumbs appear at the bottom of the screen, providing a way to navigate between them. In addition, to enter a Process Group that is currently visible on the canvas, simply double-click it, thereby "drilling down" into it. Connections also provide a way to jump from one location to another within the flow. Right-click on a connection and select "Go to source" or "Go to destination" in order to jump to one end of the connection or another. This can be very useful in large, complex dataflows, where the connection lines may be long and span large areas of the canvas. Finally, all components provide the ability to jump forward or backward within the flow. Right-click any component (e.g., a processor, process group, port, etc.) and select either "Upstream connections" or "Downstream connections". A dialog window will open, showing the available upstream or downstream connections that the user may jump to. This can be especially useful when trying to follow a dataflow in a backward direction. It is typically easy to follow the path of a dataflow from start to finish, drilling down into nested process groups; however, it can be more difficult to follow the dataflow in the other direction.
+TDP provides various mechanisms for getting around a dataflow. The <<User_Interface>> section discussed various ways to navigate around
+the TDP canvas; however, once a flow exists on the canvas, there are additional ways to get from one component to another. The <<User Interface>> section showed that when multiple Process Groups exist in a flow, breadcrumbs appear under the toolbar, providing a way to navigate between them. In addition, to enter a Process Group that is currently visible on the canvas, simply double-click it, thereby "drilling down" into it. Connections also provide a way to jump from one location to another within the flow. Right-click on a connection and select "Go to source" or "Go to destination" in order to jump to one end of the connection or another. This can be very useful in large, complex dataflows, where the connection lines may be long and span large areas of the canvas. Finally, all components provide the ability to jump forward or backward within the flow. Right-click any component (e.g., a processor, process group, port, etc.) and select either "Upstream connections" or "Downstream connections". A dialog window will open, showing the available upstream or downstream connections that the user may jump to. This can be especially useful when trying to follow a dataflow in a backward direction. It is typically easy to follow the path of a dataflow from start to finish, drilling down into nested process groups; however, it can be more difficult to follow the dataflow in the other direction.
 
 [[component_linking]]
 === Component Linking
@@ -1252,7 +1224,7 @@ NOTE: Linking to multiple components on the canvas is supported, with the restri
 [[monitoring]]
 == Monitoring of DataFlow
 
-NiFi provides a great deal of information about the DataFlow in order to monitor its
+TDP provides a great deal of information about the status of the DataFlow in order to monitor the
 health and status. The Status bar provides information about the overall system health
 (see <<User_Interface>>). Processors, Process Groups, and Remote Process Groups
 provide fine-grained details about their operations. Connections and Process Groups provide information
@@ -1266,25 +1238,25 @@ monitoring artifacts below.
 [[processor_anatomy]]
 === Anatomy of a Processor
 
-NiFi provides a significant amount of information about each Processor on the canvas. The following diagram
+TDP provides a significant amount of information about each Processor on the canvas. The following diagram
 shows the anatomy of a Processor:
 
 image:processor-anatomy.png["Anatomy of a Processor"]
 
 The image outlines the following elements:
 
-- *Processor Type*: NiFi provides several different types of Processors in order to allow for a wide range
+- *Processor Type*: TDP provides several different types of Processors in order to allow for a wide range
 	of tasks to be performed. Each type of Processor is designed to perform one specific task. The Processor
 	type (PutFile, in this example) describes the task that this Processor performs. In this case, the
 	Processor writes a FlowFile to disk - or ``Puts'' a FlowFile to a File.
 
 - *Bulletin Indicator*: When a Processor logs that some event has occurred, it generates a Bulletin to notify
-	those who are monitoring NiFi via the User Interface. The DFM is able to configure which
+	those who are monitoring TDP via the User Interface. The DFM is able to configure which
 	bulletins should be displayed in the User Interface by updating the ``Bulletin level'' field in the
 	``Settings'' tab of the Processor configuration dialog. The default value is `WARN`, which means that only
 	warnings and errors will be displayed in the UI. This icon is not present unless a Bulletin exists for this
 	Processor. When it is present, hovering over the icon with the mouse will provide a tooltip explaining the
-	message provided by the Processor as well as the Bulletin level. If the instance of NiFi is clustered,
+	message provided by the Processor as well as the Bulletin level. If the instance of TDP is clustered,
 	it will also show the Node that emitted the Bulletin. Bulletins automatically expire after five minutes.
 
 - *Status Indicator*: Shows the current Status of the Processor. The following indicators are possible:
@@ -1304,11 +1276,11 @@ The image outlines the following elements:
 
 - *Active Tasks*: The number of tasks that this Processor is currently executing. This number is constrained
 	by the ``Concurrent tasks'' setting in the ``Scheduling'' tab of the Processor configuration dialog.
-	Here, we can see that the Processor is currently performing two tasks. If the NiFi instance is clustered,
+	Here, we can see that the Processor is currently performing two tasks. If the TDP instance is clustered,
 	this value represents the number of tasks that are currently executing across all nodes in the cluster.
 
 - *5-Minute Statistics*: The Processor shows several different statistics in tabular form. Each of these
-	statistics represents the amount of work that has been performed in the past five minutes. If the NiFi
+	statistics represents the amount of work that has been performed in the past five minutes. If the TDP
 	instance is clustered, these values indicate how much work has been done by all of the Nodes combined
 	in the past five minutes. These metrics are:
 
@@ -1367,7 +1339,7 @@ The Process Group consists of the following elements:
 
 - *Active Tasks*: The number of tasks that are currently executing by the components within this
 	Process Group. Here, we can see that the Process Group is currently performing one task. If the
-	NiFi instance is clustered, this value represents the number of tasks that are currently executing
+	TDP instance is clustered, this value represents the number of tasks that are currently executing
 	across all nodes in the cluster.
 
 - *Comments*: When the Process Group is added to the canvas, the user is given the option of specifying Comments in order
@@ -1402,7 +1374,7 @@ The Process Group consists of the following elements:
 
 	** image:iconTransmissionActive.png["Transmission Active"]
 		*Transmitting Ports*: The number of Remote Process Group Ports that currently are configured to transmit data to remote
-			instances of NiFi or pull data from remote instances of NiFi.
+			instances of TDP or pull data from remote instances of TDP.
 
 	** image:iconTransmissionInactive.png["Transmission Inactive"]
 		*Non-Transmitting Ports*: The number of Remote Process Group Ports that are currently connected to components within this
@@ -1432,12 +1404,12 @@ The Process Group consists of the following elements:
 [[remote_group_anatomy]]
 === Anatomy of a Remote Process Group
 
-When creating a DataFlow, it is often necessary to transfer data from one instance of NiFi to another.
-In this case, the remote instance of NiFi can be thought of as a Process Group. For this reason, NiFi
+When creating a DataFlow, it is often necessary to transfer data from one instance of TDP to another.
+In this case, the remote instance of TDP can be thought of as a Process Group. For this reason, TDP
 provides the concept of a Remote Process Group. From the User Interface, the Remote Process Group
 looks similar to the Process Group. However, rather than showing information about the inner workings
 and state of a Remote Process Group, such as queue sizes, the information rendered about a Remote
-Process Group is related to the interaction that occurs between this instance of NiFi and the remote
+Process Group is related to the interaction that occurs between this instance of TDP and the remote
 instance.
 
 image::remote-group-anatomy.png["Anatomy of a Remote Process Group"]
@@ -1446,7 +1418,7 @@ The image above shows the different elements that make up a Remote Process Group
 explanation of the icons and details about the information provided.
 
 - *Transmission Status*: The Transmission Status indicates whether or not data Transmission between this
-	instance of NiFi and the remote instance is currently enabled. The icon shown will be the
+	instance of TDP and the remote instance is currently enabled. The icon shown will be the
 	Transmission Enabled icon (
 image:iconTransmissionActive.png["Transmission Active"]
 	) if any of the Input Ports or Output Ports is currently configured to transmit or the Transmission
@@ -1454,39 +1426,39 @@ image:iconTransmissionActive.png["Transmission Active"]
 image:iconTransmissionInactive.png["Transmission Inactive"]
 	) if all of the Input Ports and Output Ports that are currently connected are stopped.
 
-- *Remote Instance Name*: This is the name of the NiFi instance that was reported by the remote instance.
+- *Remote Instance Name*: This is the name of the TDP instance that was reported by the remote instance.
 	When the Remote Process Group is first created, before this information has been obtained, the URL
 	of the remote instance will be shown here instead.
 
 - *Remote Instance URL*: This is the URL of the remote instance that the Remote Process Group points to.
 	This URL is entered when the Remote Process Group is added to the canvas and it cannot be changed.
 
-- *Secure Indicator*: This icon indicates whether or not communications with the remote NiFi instance are
+- *Secure Indicator*: This icon indicates whether or not communications with the remote TDP instance are
 	secure. If communications with the remote instance are secure, this will be indicated by the ``locked''
 	icon (
 image:iconSecure.png["Secure"]
 	). If the communications are not secure, this will be indicated by the ``unlocked'' icon (
 image:iconNotSecure.png["Not Secure"]
-	). If the communications are secure, this instance of NiFi will not be able to communicate with the
+	). If the communications are secure, this instance of TDP will not be able to communicate with the
 	remote instance until an administrator for the remote instance grants access. Whenever the Remote Process
-	Group is added to the canvas, this will automatically initiate a request to have a user for this instance of NiFi created on the
+	Group is added to the canvas, this will automatically initiate a request to have a user for this instance of TDP created on the
 	remote instance. This instance will be unable to communicate with the remote instance until an administrator
-	on the remote instance adds the user to the system and adds the ``NiFi'' role to the user.
+	on the remote instance adds the user to the system and adds the ``TDP'' role to the user.
 	In the event that communications are not secure, the Remote Process Group is able to receive data from anyone,
-	and the data is not encrypted while it is transferred between instances of NiFi.
+	and the data is not encrypted while it is transferred between instances of TDP.
 
 - *5-Minute Statistics*: Two statistics are shown for Remote Process Groups: *Sent* and *Received*. Both of these are
 	in the format <count> / <size> where <count> is the number of FlowFiles that have been sent or received in the previous
 	five minutes and <size> is the total size of those FlowFiles' content.
 
-- *Comments*: The Comments that are provided for a Remote Process Group are not comments added by the users of this NiFi but
-	rather the Comments added by the administrators of the remote instance. These comments indicate the purpose of the NiFi
+- *Comments*: The Comments that are provided for a Remote Process Group are not comments added by the users of this TDP but
+	rather the Comments added by the administrators of the remote instance. These comments indicate the purpose of the TDP
 	instance as a whole.
 
 - *Last Refreshed Time*: The information that is pulled from a remote instance and rendered on the Remote Process Group
 	in the User Interface is periodically refreshed in the background. This element indicates the time at which that refresh
 	last happened, or if the information has not been refreshed for a significant amount of time, the value will change to
-	indicate _Remote flow not current_. NiFi can be triggered to initiate a refresh of this information by right-clicking
+	indicate _Remote flow not current_. TDP can be triggered to initiate a refresh of this information by right-clicking
 	on the Remote Process Group and choosing the ``Refresh flow'' menu item.
 
 
@@ -1501,7 +1473,7 @@ configured priority. The listing can be performed even if the source and destina
 Additionally, details for a Flowfile in the listing can be viewed by clicking on the Details icon (
 image:iconDetails.png["Details"]
 ) in the left most column. From here, the FlowFile details and attributes are available as well buttons for
-downloading or viewing the content. Viewing the content is only available if the nifi.content.viewer.url has been configured.
+downloading or viewing the content.
 If the source or destination of the Connection are actively running, there is a chance that the desired FlowFile will
 no longer be in the active queue.
 
@@ -1513,9 +1485,9 @@ are actively running.
 [[Summary_Page]]
 === Summary Page
 
-While the NiFi canvas is useful for understanding how the configured DataFlow is laid out, this view is not always optimal
+While the TDP canvas is useful for understanding how the configured DataFlow is laid out, this view is not always optimal
 when trying to discern the status of the system. In order to help the user understand how the DataFlow is functioning
-at a higher level, NiFi provides a Summary page. This page is available in the Global Menu in the top-right corner
+at a higher level, TDP provides a Summary page. This page is available in the Global Menu in the top-right corner
 of the User Interface. See the <<User_Interface>> section for more information about the location of this toolbar.
 
 The Summary Page is opened by selecting Summary from the Global Menu. This opens the Summary table dialog:
@@ -1544,7 +1516,7 @@ The Summary page also includes the following elements:
 - *Details*: Clicking the Details icon will provide the user with the details of the component. This dialog is the same as the
 	dialog provided when the user right-clicks on the component and chooses the ``View configuration'' menu item.
 
-- *Go To*: Clicking this button will close the Summary page and take the user directly to the component on the NiFi canvas. This
+- *Go To*: Clicking this button will close the Summary page and take the user directly to the component on the TDP canvas. This
 	may change the Process Group that the user is currently in. This icon is not available if the Summary page has been opened
 	in a new browser tab or window (by clicking the ``Pop Out'' button, as described below).
 
@@ -1583,8 +1555,7 @@ past five minutes, it is often useful to have a view of historical statistics as
 by right-clicking on a component and choosing the ``Status History'' menu option or by clicking on the Status History in the Summary page (see <<Summary_Page>>
 for more information).
 
-The amount of historical information that is stored is configurable in the NiFi properties but defaults to 24 hours. For specific
-configuration information reference the Component Status Repository of the link:administration-guide.html[System Administrator’s Guide].
+The amount of historical information that is stored is configurable in the TDP properties but defaults to 24 hours.
 When the Status History dialog is opened, it provides a graph of historical statistics:
 
 image::stats-history.png["Status History"]
@@ -1606,7 +1577,7 @@ representation of the statistics being graphed. The following information is pro
 - *End*: The latest time shown on the graph.
 
 - *Min/Max/Mean*: The minimum, maximum, and mean (arithmetic mean, or average) values are shown. These values are based
-	only on the range of time selected, if any time range is selected. If this instance of NiFi is clustered, these values
+	only on the range of time selected, if any time range is selected. If this instance of TDP is clustered, these values
 	are shown for the cluster as a whole, as well as each individual node. In a clustered environment, each node is shown
 	in a different color. This also serves as the graph's legend, showing the color of each node that is shown in the graph.
 	Hovering the mouse over the Cluster or one of the nodes in the legend will also make the corresponding node bold in the graph.
@@ -1630,15 +1601,15 @@ will remove the selection.
 
 [[templates]]
 == Templates
-DFMs have the ability to build very large and complex DataFlows using NiFi. This is achieved
+DFMs have the ability to build very large and complex DataFlows using TDP. This is achieved
 by using the basic components: Processor, Funnel, Input/Output Port, Process Group, and Remote Process Group. These
 can be thought of as the most basic building blocks for constructing a DataFlow. At times, though, using these
 small building blocks can become tedious if the same logic needs to be repeated several times.
 
-To solve this issue, NiFi provides the concept of a Template. A Template is a way of combining these basic building
+To solve this issue, TDP provides the concept of a Template. A Template is a way of combining these basic building
 blocks into larger building blocks. Once a DataFlow has been created, parts of it can be formed into a Template.
 This Template can then be dragged onto the canvas, or can be exported as an XML file and shared with others. Templates
-received from others can then be imported into an instance of NiFi and dragged onto the canvas.
+received from others can then be imported into an instance of TDP and dragged onto the canvas.
 
 [[Create_Template]]
 === Creating a Template
@@ -1664,8 +1635,8 @@ destination of the Connection is not also included in the Template.
 
 [[Import_Template]]
 === Importing a Template
-After receiving a Template that has been exported from another NiFi, the first step needed to use the template is to import
-the template into this instance of NiFi. You may import templates into any Process Group where you have the appropriate
+After receiving a Template that has been exported from another TDP, the first step needed to use the template is to import
+the template into this instance of TDP. You may import templates into any Process Group where you have the appropriate
 authorization.
 
 From the Operate Palette, click the ``Upload Template'' (
@@ -1673,7 +1644,7 @@ image:iconUploadTemplate.png["Upload Template"]
 )  button (See <<User_Interface>> for more information on the Operate Palette).  This will display the Upload Template
 dialog.  Click the find icon and use the File Selection dialog to choose which template file to upload.
 Select the file and click Open.
-Clicking the ``Upload'' button will attempt to import the Template into this instance of NiFi.
+Clicking the ``Upload'' button will attempt to import the Template into this instance of TDP.
 The Upload Template dialog will update to show ``Success'' or an error message if there was a problem importing the template.
 
 
@@ -1695,7 +1666,7 @@ longer wanted, it may be deleted.
 [[Manage_Templates]]
 === Managing Templates
 
-One of the most powerful features of NiFi Templates is the ability to easily export a Template to an XML file
+One of the most powerful features of TDP Templates is the ability to easily export a Template to an XML file
 and to import a Template that has already been exported. This provides a very simple mechanism for sharing parts
 of a DataFlow with others. You can select Templates from the Global Menu (see <<User_Interface>>) to open a dialog
 that displays all of the Templates that are currently available,
@@ -1709,7 +1680,7 @@ To export a Template, locate the Template in the table. The Filter in the top-ri
 can be used to help find the appropriate Template if several are available. Then click the Export or Download button (
 image:iconExport.png["Export"]
 ). This will download the template as an XML file to your computer. This XML file can then be sent to others and imported
-into other instances of NiFi (see <<Import_Template>>).
+into other instances of TDP (see <<Import_Template>>).
 
 
 ==== Removing a Template
@@ -1724,9 +1695,9 @@ and will no longer be available to add to the canvas.
 [[data_provenance]]
 == Data Provenance
 While monitoring a dataflow, users often need a way to determine what happened to a particular data object (FlowFile).
-NiFi's Data Provenance page provides that information. Because NiFi records and indexes data provenance details
+TDP's Data Provenance page provides that information. Because TDP records and indexes data provenance details
 as objects flow through the system, users may perform searches, conduct troubleshooting and evaluate things
-like dataflow compliance and optimization in real time. By default, NiFi updates this information every five minutes, but that
+like dataflow compliance and optimization in real time. By default, TDP updates this information every five minutes, but that
 is configurable.
 
 
@@ -1822,7 +1793,7 @@ To see how the lineage evolved over time, click the slider at the bottom-left of
 image:lineage-graph-annotated.png["Lineage Graph", width=900]
 
 ==== Find Parents
-Sometimes, a user may need to track down the original FlowFile that another FlowFile was spawned from. For example, when a FORK or CLONE event occurs, NiFi keeps
+Sometimes, a user may need to track down the original FlowFile that another FlowFile was spawned from. For example, when a FORK or CLONE event occurs, TDP keeps
 track of the parent FlowFile that produced other FlowFiles, and it is possible to find that parent FlowFile in the Lineage. Right-click on the event in the
 lineage graph and select "Find parents" from the context menu.
 
@@ -1922,10 +1893,10 @@ In addition to the Summary Page, Data Provenance Page, Template Management Page,
 other tools in the Global Menu (see <<User_Interface>>) that are useful to the DFM. Select Flow Configuration History to view
 all the changes that have been made to the dataflow. The history can aid in troubleshooting, such as if a
 recent change to the dataflow has caused a problem and needs to be fixed. The DFM can see what changes have been made and
-adjust the flow as needed to fix the problem. While NiFi does not have an "undo" feature, the DFM can make new changes to the
+adjust the flow as needed to fix the problem. While TDP does not have an "undo" feature, the DFM can make new changes to the
 dataflow that will fix the problem.
 
 Two other tools in the Global Menu are Controller Settings and Users. The Controller Settings page provides the ability to change
-the name of the NiFi instance, add comments describing the NiFi instance, and set the maximum number of threads that are available
+the name of the TDP instance, add comments describing the TDP instance, set the maximum number of threads that are available
 to the application. It also provides tabs where DFMs may add and configure <<Controller_Services>> and <<Reporting_Tasks>>. The Users page is used to manage user access, which is described in
-the link:administration-guide.html[System Administrator's Guide].
+(see <<Controller_Services_and_Reporting_Tasks>>). The Users page is used to manage user access.

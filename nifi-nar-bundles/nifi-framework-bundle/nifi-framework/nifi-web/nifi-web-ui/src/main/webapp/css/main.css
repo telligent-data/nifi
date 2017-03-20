@@ -35,7 +35,7 @@ body {
     bottom: 10%;
     left: 10%;
     right: 10%;
-    background: transparent url(../images/nifi-drop-splash.svg) no-repeat center center;
+    background: transparent url(../images/td-logo.png) no-repeat center center/contain;
 }
 
 div.context-menu-provenance {

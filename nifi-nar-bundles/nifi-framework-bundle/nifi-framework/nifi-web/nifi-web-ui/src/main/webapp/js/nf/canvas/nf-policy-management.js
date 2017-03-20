@@ -480,12 +480,12 @@
             }, {
                 text: 'receive data via site-to-site',
                 value: 'write-receive-data',
-                description: 'Allows this port to receive data from these NiFi instances',
+                description: 'Allows this port to receive data from these TDP instances',
                 disabled: true
             }, {
                 text: 'send data via site-to-site',
                 value: 'write-send-data',
-                description: 'Allows this port to send data to these NiFi instances',
+                description: 'Allows this port to send data to these TDP instances',
                 disabled: true
             }, {
                 text: 'view the policies',

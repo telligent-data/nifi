@@ -19,7 +19,7 @@
     <div class="dialog-content">
         <div class="setting">
             <div class="setting-name">URLs
-                <div class="fa fa-question-circle" alt="Info" title="Specify the remote target NiFi URLs. Multiple URLs can be specified in comma-separated format. Different protocols cannot be mixed. If remote NiFi is a cluster, two or more node URLs are recommended for better connection establishment availability."></div>
+                <div class="fa fa-question-circle" alt="Info" title="Specify the remote target TDP URLs. Multiple URLs can be specified in comma-separated format. Different protocols cannot be mixed. If remote TDP is a cluster, two or more node URLs are recommended for better connection establishment availability."></div>
              </div>
             <div class="setting-field">
                 <input id="new-remote-process-group-uris" type="text" placeholder="https://remotehost:8080/nifi"/>
@@ -50,7 +50,7 @@
             <div class="remote-process-group-setting-left">
                 <div class="setting-name">
                     HTTP Proxy server hostname
-                    <div class="fa fa-question-circle" alt="Info" title="Specify the proxy server's hostname to use. If not specified, HTTP traffics are sent directly to the target NiFi instance."></div>
+                    <div class="fa fa-question-circle" alt="Info" title="Specify the proxy server's hostname to use. If not specified, HTTP traffics are sent directly to the target TDP instance."></div>
                 </div>
                 <div class="setting-field">
                     <input type="text" class="small-setting-input" id="new-remote-process-group-proxy-host"/>

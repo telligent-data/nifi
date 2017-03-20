@@ -1347,7 +1347,7 @@
             <outputPortCount>1</outputPortCount>
             <parent>
                 <id>32b64df5-b2f5-4c47-9880-3d0bd5c8ff15</id>
-                <name>NiFi Flow</name>
+                <name>TDP Flow</name>
             </parent>
             <runningCount>5</runningCount>
             <stoppedCount>0</stoppedCount>

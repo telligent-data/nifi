@@ -208,7 +208,7 @@
                                 </div>
                                 <div id="run-duration-data-loss" class="hidden">
                                     <div class="processor-configuration-warning-icon"></div>
-                                    Source Processors with a run duration greater than 0ms and no incoming connections could lose data when NiFi is shutdown.
+                                    Source Processors with a run duration greater than 0ms and no incoming connections could lose data when TDP is shutdown.
                                 </div>
                             </div>
                         </div>

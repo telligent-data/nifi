@@ -14,14 +14,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-NiFi System Administrator's Guide
+TDP System Administrator's Guide
 =================================
-Apache NiFi Team <dev@nifi.apache.org>
-:homepage: http://nifi.apache.org
+Telligent Data Team <gene@telligentdata.com>
+:homepage: https://telligentdata.com
 
 System Requirements
 -------------------
-Apache NiFi can run on something as simple as a laptop, but it can also be clustered across many enterprise-class servers. Therefore, the amount of hardware and memory needed will depend on the size and nature of the dataflow involved. The data is stored on disk while NiFi is processing it. So NiFi needs to have sufficient disk space allocated for its various repositories, particularly the content repository, flowfile repository, and provenance repository (see the <<system_properties>> section for more information about these repositories). NiFi has the following minimum system requirements:
+The Telligent Data Pipeline can run on something as simple as a laptop, but it can also be clustered across many enterprise-class servers. Therefore, the amount of hardware and memory needed will depend on the size and nature of the dataflow involved. The data is stored on disk while TDP is processing it. So TDP needs to have sufficient disk space allocated for its various repositories, particularly the content repository, flowfile repository, and provenance repository (see the <<system_properties>> section for more information about these repositories). TDP has the following minimum system requirements:
 
 * Requires Java 8 or newer
 * Supported Operating Systems:

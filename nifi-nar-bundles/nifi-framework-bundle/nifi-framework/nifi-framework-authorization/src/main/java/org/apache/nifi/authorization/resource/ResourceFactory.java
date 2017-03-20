@@ -47,7 +47,7 @@ public final class ResourceFactory {
 
         @Override
         public String getName() {
-            return "NiFi Flow";
+            return "TDP Flow";
         }
 
         @Override
