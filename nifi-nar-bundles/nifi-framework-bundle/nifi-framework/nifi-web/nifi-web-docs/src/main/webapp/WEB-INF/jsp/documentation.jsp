@@ -22,7 +22,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="shortcut icon" href="../nifi/images/nifi16.ico"/>
-        <title>NiFi Documentation</title>
+        <title>TDP Documentation</title>
         <script type="text/javascript" src="../nifi/assets/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="js/application.js"></script>
         <link href="css/main.css" rel="stylesheet" type="text/css" />
@@ -45,7 +45,7 @@
         <div id="documentation-header" class="documentation-header">
             <div id="component-list-toggle-link">-</div>
             <div id="header-contents">
-                <div id="nf-title">NiFi Documentation</div>
+                <div id="nf-title">TDP Documentation</div>
                 <div id="nf-version"></div>
                 <div id="selected-component"></div>
             </div>
@@ -57,11 +57,7 @@
                         <div class="header">General</div>
                         <div id="general-links" class="component-links">
                             <ul>
-                                <li class="component-item"><a class="document-link overview" href="html/overview.html" target="component-usage">Overview</a></li>
-                                <li class="component-item"><a class="document-link getting-started" href="html/getting-started.html" target="component-usage">Getting Started</a></li>
-                                <li class="component-item"><a class="document-link user-guide" href="html/user-guide.html" target="component-usage">User Guide</a></li>
                                 <li class="component-item"><a class="document-link expression-language-guide" href="html/expression-language-guide.html" target="component-usage">Expression Language Guide</a></li>
-                                <li class="component-item"><a class="document-link admin-guide" href="html/administration-guide.html" target="component-usage">Admin Guide</a></li>
                             </ul>
                             <span class="no-matching no-components hidden">No matching guides</span>
                         </div>
@@ -170,17 +166,6 @@
                                     <span class="no-components">No reporting task documentation found</span>
                                 </c:otherwise>
                             </c:choose>
-                        </div>
-                    </div>
-                    <div class="section">
-                        <div class="header">Developer</div>
-                        <div id="developer-links" class="component-links">
-                            <ul>
-                                <li class="component-item"><a class="document-link rest-api" href="rest-api/index.html" target="component-usage">Rest Api</a></li>
-                                <li class="component-item"><a class="document-link developer-guide" href="html/developer-guide.html" target="component-usage">Developer Guide</a></li>
-                                <li class="component-item"><a class="document-link developer-guide" href="html/nifi-in-depth.html" target="component-usage">Apache NiFi In Depth</a></li>
-                            </ul>
-                            <span class="no-matching no-components hidden">No matching developer guides</span>
                         </div>
                     </div>
                 </div>

@@ -238,7 +238,7 @@
                 nfSummaryTable.loadSummaryTable();
 
                 // update the header
-                $('#summary-header-text').text('NiFi Summary');
+                $('#summary-header-text').text('TDP Summary');
             });
 
             // show the view links

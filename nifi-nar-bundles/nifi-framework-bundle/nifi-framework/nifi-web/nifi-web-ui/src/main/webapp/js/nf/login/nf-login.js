@@ -221,7 +221,7 @@
                 // if login is required, verify its supported
                 if (accessConfig.supportsLogin === false && needsLogin === true) {
                     $('#login-message-title').text('Access Denied');
-                    $('#login-message').text('This NiFi is not configured to support username/password logins.');
+                    $('#login-message').text('This TDP instance is not configured to support username/password logins.');
                     showMessage = true;
                     needsLogin = false;
                 }

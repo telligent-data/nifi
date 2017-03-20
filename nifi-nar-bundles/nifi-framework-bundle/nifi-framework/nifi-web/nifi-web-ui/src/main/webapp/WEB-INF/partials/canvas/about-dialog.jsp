@@ -34,8 +34,7 @@
                 </p>
             </div>
             <p>
-                Apache NiFi is a framework to support highly scalable and flexible dataflows.
-                It can be run on laptops up through clusters of enterprise class servers.
+                The Telligent Data Pipeline is a framework to support highly scalable and flexible dataflows.
                 Instead of dictating a particular dataflow or behavior it empowers you to design your own
                 optimal dataflow tailored to your specific environment.
             </p>

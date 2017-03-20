@@ -18,9 +18,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>NiFi Templates</title>
+        <title>TDP Templates</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <link rel="shortcut icon" href="images/nifi16.ico"/>
+        <link rel="shortcut icon" href="tdp-icon32.png"/>
         <link rel="stylesheet" href="assets/reset.css/reset.css" type="text/css" />
         ${nf.templates.style.tags}
         <link rel="stylesheet" href="js/jquery/combo/jquery.combo.css?${project.version}" type="text/css" />

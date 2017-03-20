@@ -23,14 +23,14 @@
 
 #nf-about-pic {
     height: 60%;
-    background: url(../images/nifi-logo-about.svg) #000000 no-repeat center center;
+    background: url(../images/td-logo-darktext.png) #aabbc3 no-repeat center center/contain;
     top: 20%;
     position: relative;
 }
 
 #nf-about-pic-container {
     height: 40%;
-    background: #000000;
+    background: #aabbc3;
 }
 
 #nf-version {
