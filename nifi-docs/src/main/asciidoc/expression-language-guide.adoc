@@ -14,15 +14,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-Apache NiFi Expression Language Guide
-=====================================
-Apache NiFi Team <dev@nifi.apache.org>
-:homepage: http://nifi.apache.org
+Telligent Data Pipeline Expression Language Guide
+================================================
+Telligent Data Team <gene@telligentdata.com>
+:homepage: https://www.telligentdata.com
 
 [[overview]]
 Overview
 --------
-All data in Apache NiFi is represented by an abstraction called a FlowFile.
+All data in the Telligent Data Pipeline is represented by an abstraction called a FlowFile.
 A FlowFile is comprised of two major pieces: content and attributes.
 The content portion of the FlowFile represents the data on which to operate.
 For instance, if a file is picked up from a local file system using the
@@ -42,16 +42,16 @@ unique identifier for this FlowFile. For complete listing of the core attributes
 check out the FlowFile section of the link:developer-guide.html#flowfile[Developer's Guide].
 
 However, placing these attributes on a FlowFile do not provide much benefit
-if the user is unable to make use of them. The NiFi Expression Language provides
+if the user is unable to make use of them. The TDP Expression Language provides
 the ability to reference these attributes, compare them to other values,
 and manipulate their values.
 
 
 [[structure]]
-Structure of a NiFi Expression
+Structure of a TDP Expression
 ------------------------------
 
-The NiFi Expression Language always begins with the start delimiter `${` and ends
+The TDP Expression Language always begins with the start delimiter `${` and ends
 with the end delimiter `}`. Between the start and end delimiters is the text of the
 Expression itself. In its most basic form, the Expression can consist of just an
 attribute name. For example, `${filename}` will return the value of the ``filename''
@@ -138,7 +138,7 @@ in `file` and `name` being interpreted as different tokens, rather than a single
 [[usage]]
 == Expression Language in the Application
 
-The Expression Language is used heavily throughout the NiFi application for configuring Processor
+The Expression Language is used heavily throughout the TDP application for configuring Processor
 properties. Not all Processor properties support the Expression Language, however. Whether or not
 a Property supports the Expression Language is determined by the developer of the Processor when
 the Processor is written. However, the application strives to clearly illustrate for each Property
@@ -156,7 +156,7 @@ supports the expression language.
 [[editor]]
 === Expression Language Editor
 
-When configuring the value of a Processor property, the NiFi User Interface provides help with the
+When configuring the value of a Processor property, the TDP User Interface provides help with the
 Expression Language using the Expression Language editor. Once an Expression is begin by typing `${`,
 the editor begins to highlight parentheses and braces so that the user is easily able to tell which
 opening parenthesis or brace matches which closing parenthesis or brace.
@@ -900,7 +900,7 @@ Expressions will provide the following results:
 [.function]
 === replaceAll
 
-*Description*: [.description]#The `replaceAll` function takes two String arguments: a literal String or Regular Expression (NiFi uses the Java Pattern
+*Description*: [.description]#The `replaceAll` function takes two String arguments: a literal String or Regular Expression (TDP uses the Java Pattern
 	syntax), and a replacement string. The return value is the result of substituting the replacement string for
 	all patterns within the Subject that match the Regular Expression.#
 
@@ -1196,8 +1196,8 @@ Each of the following functions will encode a string according the rules of the 
 *Return Type*: [.returnType]#String#
 
 *Examples*: We can URL-Encode an attribute named "url" by using the Expression `${url:urlEncode()}`. If
-	the value of the "url" attribute is "https://nifi.apache.org/some value with spaces", this
-	Expression will then return "https://nifi.apache.org/some%20value%20with%20spaces".
+	the value of the "url" attribute is "https://www.telligentdata.com/some value with spaces", this
+	Expression will then return "https://www.telligentdata.com/some%20value%20with%20spaces".
 
 
 
@@ -1214,8 +1214,8 @@ Each of the following functions will encode a string according the rules of the 
 *Return Type*: [.returnType]#String#
 
 *Examples*: If we have a URL-Encoded attribute named "url" with the value
-	"https://nifi.apache.org/some%20value%20with%20spaces", then the Expression
-	`${url:urlDecode()}` will return "https://nifi.apache.org/some value with spaces".
+	"https://www.telligentdata.com/some%20value%20with%20spaces", then the Expression
+	`${url:urlDecode()}` will return "https://www.telligentdata.com/some value with spaces".
 
 
 
@@ -1739,7 +1739,7 @@ In order to run the correct method, the parameter types must be correct. The Exp
 
 	- ${literal(64):toDouble():math("cbrt"):toNumber():math("max", 5)} runs Math.max((Double.valueOf(Math.cbrt(64D))).longValue(), 5L). Note that the toDecimal() is needed because "cbrt" takes a "double" as input and the "64" will get interpreted as a long. The "toDecimal()" call is necessary to correctly call the method. that the "toNumber()" call is necessary because "cbrt" returns a double and the "max" method is must have parameters of the same type and "5" is interpreted as a long.
 
-	- ${literal(5.4):math("scalb", 2)} runs Math.scalb(5.4, 2). This example is important because NiFi EL treats all whole numbers as "longs" and there is no concept of an "int". "scalb" takes a second parameter of an "int" and it is not overloaded to accept longs so it could not be run without special type handling. In the instance where the Java method cannot be found using parameters of type "double" and "long" the "math()" EL function will attempt to find a Java method with the same name but parameters of "double" and "int".
+	- ${literal(5.4):math("scalb", 2)} runs Math.scalb(5.4, 2). This example is important because TDP EL treats all whole numbers as "longs" and there is no concept of an "int". "scalb" takes a second parameter of an "int" and it is not overloaded to accept longs so it could not be run without special type handling. In the instance where the Java method cannot be found using parameters of type "double" and "long" the "math()" EL function will attempt to find a Java method with the same name but parameters of "double" and "int".
 
 	- ${first:toDecimal():math("pow", ${second:toDecimal()})} where attributes evaluate to "first" = 2.5 and "second" = 2. This example runs Math.pow(2.5D, 2D). The explicit calls to toDecimal() are important because of the dynamic nature of EL. When creating the flow, the user is unaware if the expression language values will be able to be interpreted as a whole number or not. In this example without the explicit calls "toDecimal" the "math" function would attempt to run a Java method "pow" with types "double" and "long" (which doesn't exist).
 
@@ -1969,10 +1969,10 @@ an error when validating the function.
 [.function]
 === nextInt
 
-*Description*: [.description]#Returns a one-up value (starting at 0) and increasing over the lifetime of the running instance of NiFi.
+*Description*: [.description]#Returns a one-up value (starting at 0) and increasing over the lifetime of the running instance of TDP.
 	This value is not persisted across restarts and is not guaranteed to be unique across a cluster.
-	This value is considered "one-up" in that if called multiple times across the NiFi instance, the values will be sequential.
-	However, this counter is shared across all NiFi components, so calling this function multiple times from one Processor will
+	This value is considered "one-up" in that if called multiple times across the TDP instance, the values will be sequential.
+	However, this counter is shared across all TDP components, so calling this function multiple times from one Processor will
 	not guarantee sequential values within the context of a particular Processor.#
 
 *Subject Type*: [.subjectless]#No Subject#
@@ -2027,7 +2027,7 @@ names begin with the letter `a`.
 == Evaluating Multiple Attributes
 
 When it becomes necessary to evaluate the same conditions against multiple attributes, this can be accomplished by means of the
-`and` and `or` functions. However, this quickly becomes tedious, error-prone, and difficult to maintain. For this reason, NiFi
+`and` and `or` functions. However, this quickly becomes tedious, error-prone, and difficult to maintain. For this reason, TDP
 provides several functions for evaluating the same conditions against groups of attributes at the same time.
 
 

@@ -395,7 +395,7 @@
         tableId: 'cluster-version-table',
         tableColumnModel: [
             {id: 'node', field: 'node', name: 'Node Address', sortable: true, resizable: true},
-            {id: 'version', field: 'version', name: 'NiFi Version', sortable: true, resizable: true},
+            {id: 'version', field: 'version', name: 'TDP Version', sortable: true, resizable: true},
             {id: 'javavendor', field: 'javaVendor', name: 'Java Vendor', sortable: true, resizable: true},
             {id: 'javaversion', field: 'javaVersion', name: 'Java Version', sortable: true, resizable: true},
             {id: 'osname', field: 'osName', name: 'OS Name', sortable: true, resizable: true},

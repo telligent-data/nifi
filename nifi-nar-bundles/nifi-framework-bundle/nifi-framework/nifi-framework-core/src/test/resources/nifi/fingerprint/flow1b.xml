@@ -17,7 +17,7 @@
     <maxThreadCount>15</maxThreadCount>
     <rootGroup>
         <id>e3909250-331d-420b-a9b3-cc54ad459401</id>
-        <name>NiFi Flow</name>
+        <name>TDP Flow</name>
         <position x="0.0" y="0.0"/>
         <style/>
         <comment/>

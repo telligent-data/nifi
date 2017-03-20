@@ -273,7 +273,7 @@
                     } else {
                         nfDialog.showOkDialog({
                             headerText: 'Instantiate Template',
-                            dialogContent: 'No templates have been loaded into this NiFi.'
+                            dialogContent: 'No templates have been loaded into this TDP instance.'
                         });
                     }
 

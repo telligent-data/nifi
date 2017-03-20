@@ -65,7 +65,7 @@ public class AboutDTO {
      * @return The version.
      */
     @ApiModelProperty(
-            value = "The version of this NiFi."
+            value = "The version of this TDP instance."
     )
     public String getVersion() {
         return version;
@@ -79,7 +79,7 @@ public class AboutDTO {
      * @return URI for this NiFi controller
      */
     @ApiModelProperty(
-        value = "The URI for the NiFi."
+        value = "The URI for the TDP instance."
     )
     public String getUri() {
         return uri;
@@ -108,7 +108,7 @@ public class AboutDTO {
      */
     @XmlJavaTypeAdapter(TimezoneAdapter.class)
     @ApiModelProperty(
-            value = "The timezone of the NiFi instance.",
+            value = "The timezone of the TDP instance.",
             readOnly = true,
             dataType = "string"
     )

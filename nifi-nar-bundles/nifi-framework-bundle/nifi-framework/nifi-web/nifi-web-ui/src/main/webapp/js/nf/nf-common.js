@@ -129,7 +129,7 @@
     }, {
         text: 'retrieve site-to-site details',
         value: 'site-to-site',
-        description: 'Allows other NiFi instances to retrieve Site-To-Site details of this NiFi'
+        description: 'Allows other TDP instances to retrieve Site-To-Site details of this TDP Node'
     }, {
         text: 'view system diagnostics',
         value: 'system',
