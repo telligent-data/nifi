@@ -429,7 +429,7 @@
             if (bundle.group !== 'default') {
                 groupString = bundle.group + ' - ';
             }
-            return groupString + bundle.artifact;
+            return groupString.replace("org.apache.nifi", "com.telligentdata.pipeline") + bundle.artifact.replace("nifi", "tdp");
         },
 
         /**
