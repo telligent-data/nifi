@@ -80,6 +80,7 @@
         <module>nifi-stateful-analysis-bundle</module>
         <module>nifi-poi-bundle</module>
         <module>nifi-cdc</module>
+    <module>nifi-cometd-bundle</module>
   </modules>
 
     <build>
@@ -102,7 +103,7 @@
                     <doUpdate>false</doUpdate>
                     <shortRevisionLength>7</shortRevisionLength>
                     <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
-                    <revisionOnScmFailure />
+                    <revisionOnScmFailure/>
                     <buildNumberPropertyName>buildRevision</buildNumberPropertyName>
                     <scmBranchPropertyName>buildBranch</scmBranchPropertyName>
                 </configuration>
