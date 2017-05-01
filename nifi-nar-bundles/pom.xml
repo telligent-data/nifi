@@ -80,7 +80,6 @@
         <module>nifi-stateful-analysis-bundle</module>
         <module>nifi-poi-bundle</module>
         <module>nifi-cdc</module>
-        <module>nifi-cometd-bundle</module>
         <module>nifi-cybersecurity-bundle</module>
         <module>nifi-salesforce-bundle</module>
   </modules>
