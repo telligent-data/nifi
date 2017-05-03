@@ -2,7 +2,15 @@ package org.apache.nifi.processors.cometd;
 
 import com.google.common.collect.ImmutableList;
 import com.sforce.soap.partner.PartnerConnection;
+import org.apache.nifi.annotation.behavior.DynamicProperty;
+import org.apache.nifi.annotation.behavior.DynamicRelationship;
+import org.apache.nifi.annotation.behavior.EventDriven;
+import org.apache.nifi.annotation.behavior.InputRequirement;
 import org.apache.nifi.annotation.behavior.Stateful;
+import org.apache.nifi.annotation.behavior.WritesAttribute;
+import org.apache.nifi.annotation.behavior.WritesAttributes;
+import org.apache.nifi.annotation.documentation.CapabilityDescription;
+import org.apache.nifi.annotation.documentation.Tags;
 import org.apache.nifi.components.PropertyDescriptor;
 import org.apache.nifi.components.state.Scope;
 import org.apache.nifi.components.state.StateManager;
@@ -35,7 +43,18 @@ import java.util.stream.Collectors;
 /**
  * Created by gene on 5/1/17.
  */
-@Stateful(scopes = {Scope.CLUSTER}, description = "Uses cluster-wide state")
+@EventDriven
+@InputRequirement(InputRequirement.Requirement.INPUT_FORBIDDEN)
+@Tags({"stream", "bayeux", "salesforce", "cometd"})
+@CapabilityDescription("Connects to a remote Salesforce streaming cometd server, subscribes to particular channels, and emits the results as a raw JSON message. Supports \"replaying\" the stream from a particular point in time.")
+@Stateful(scopes = {Scope.CLUSTER}, description = "Stores maximum value of replayId for each channel as cluster-wide state.")
+@DynamicProperty(name = "Relationship Name", value = "channel", description = "Routes data emitted in a particular channel to a set relationship.")
+@DynamicRelationship(name = "Name from Dynamic Property", description = "Flowfiles are routed to this relationship from the configured channel.")
+@WritesAttributes({
+        @WritesAttribute(attribute="cometd.channel", description = "Channel from which the Flowfile data was emitted"),
+        @WritesAttribute(attribute="cometd.client", description = "ClientID of the cometd client"),
+        @WritesAttribute(attribute="cometd.channelId", description = "ID of the channel from which the Flowfile data was emitted"),
+})
 public class ConnectSalesforceStreaming extends AbstractBayeuxListenerProcessor {
     private static final String AUTHORIZATION = "Authorization";
     private static final String SALESFORCE_API_VERSION = "39.0";
@@ -96,8 +115,6 @@ public class ConnectSalesforceStreaming extends AbstractBayeuxListenerProcessor 
         synchronized (this) {
             final Map<String, String> stateMap = this.replayStatus.entrySet().stream()
                     .collect(Collectors.toMap(Map.Entry::getKey, v -> String.valueOf(v.getValue())));
-
-            System.out.println("Statemap interlaly is: " + stateMap);
             try {
                 context.getStateManager().setState(stateMap, Scope.CLUSTER);
             } catch (IOException e) {

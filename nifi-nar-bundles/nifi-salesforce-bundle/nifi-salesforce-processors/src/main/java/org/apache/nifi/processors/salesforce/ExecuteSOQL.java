@@ -56,7 +56,7 @@ import java.util.regex.Pattern;
 @InputRequirement(InputRequirement.Requirement.INPUT_FORBIDDEN)
 @Stateful(scopes = Scope.CLUSTER, description = "")
 @Tags({"sql", "select", "salesforce", "query", "soql"})
-@CapabilityDescription("Execute provided SOQL query. Query result will be converted to JSON format."
+@CapabilityDescription("Execute provided SOQL query on a Salesforce instance. Query result will be converted to JSON format."
         + " Streaming is used so arbitrarily large result sets are supported. This processor can be scheduled to run on "
         + "a timer, or cron expression, using the standard scheduling methods, or it can be triggered by an incoming FlowFile. "
         + "If it is triggered by an incoming FlowFile, then attributes of that FlowFile will be available when evaluating the "
@@ -80,6 +80,7 @@ public class ExecuteSOQL extends AbstractProcessor {
             .displayName("Query")
             .description("The query to execute through the Salesforce API.")
             .required(true)
+            .expressionLanguageSupported(true)
             .addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
             .build();
 
@@ -134,7 +135,7 @@ public class ExecuteSOQL extends AbstractProcessor {
 
     @Override
     public void onTrigger(ProcessContext context, ProcessSession session) throws ProcessException {
-        final String query = context.getProperty(QUERY).getValue();
+            final String query = context.getProperty(QUERY).evaluateAttributeExpressions().getValue();
         final SalesforceConnectorService connectorService = context.getProperty(SALESFORCE_CONNECTOR_SERVICE).asControllerService(SalesforceConnectorService.class);
         final Boolean queryAll = context.getProperty(QUERY_ALL).asBoolean();
         final StateManager stateManager = context.getStateManager();
