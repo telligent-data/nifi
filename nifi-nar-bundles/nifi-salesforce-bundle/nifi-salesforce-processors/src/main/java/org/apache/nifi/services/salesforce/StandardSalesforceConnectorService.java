@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.sforce.async.AsyncApiException;
+import com.sforce.async.BulkConnection;
 import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.ws.ConnectionException;
 import com.sforce.ws.ConnectorConfig;
@@ -38,6 +40,7 @@ import org.apache.nifi.reporting.InitializationException;
 @Tags({ "example"})
 @CapabilityDescription("Example ControllerService implementation of SalesforceConnectorService.")
 public class StandardSalesforceConnectorService extends AbstractControllerService implements SalesforceConnectorService {
+
     public static final PropertyDescriptor USER = new PropertyDescriptor
             .Builder().name("sf.user")
             .displayName("User")
@@ -85,6 +88,7 @@ public class StandardSalesforceConnectorService extends AbstractControllerServic
     }
 
     private PartnerConnection connection;
+    private BulkConnection bulkConnection;
 
     @Override
     protected List<PropertyDescriptor> getSupportedPropertyDescriptors() {
@@ -106,7 +110,8 @@ public class StandardSalesforceConnectorService extends AbstractControllerServic
 
         try {
             this.connection = buildConnection(username, password, token, endpoint);
-        } catch (ConnectionException e) {
+            this.bulkConnection = buildBulkConnection(this.connection);
+        } catch (ConnectionException | AsyncApiException e) {
             throw new InitializationException("Cannot create connection to Salesforce API", e);
         }
     }
@@ -116,6 +121,7 @@ public class StandardSalesforceConnectorService extends AbstractControllerServic
         partnerConfig.setUsername(username);
         partnerConfig.setPassword(password + securityToken);
         partnerConfig.setAuthEndpoint(authEndpoint);
+        /*
         partnerConfig.addMessageHandler(new MessageHandler() {
             @Override
             public void handleRequest(URL url, byte[] bytes) {
@@ -129,12 +135,31 @@ public class StandardSalesforceConnectorService extends AbstractControllerServic
                 System.out.println(new String(bytes));
             }
         });
+        */
+        partnerConfig.setTraceMessage(true);
         return new PartnerConnection(partnerConfig);
+    }
+
+    protected static BulkConnection buildBulkConnection(PartnerConnection partnerConnection) throws AsyncApiException {
+        ConnectorConfig config = new ConnectorConfig();
+        config.setSessionId(partnerConnection.getConfig().getSessionId());
+        String soapEndpoint = partnerConnection.getConfig().getServiceEndpoint();
+        String apiVersion = "39.0";
+        String restEndpoint = soapEndpoint.substring(0, soapEndpoint.indexOf("Soap/")) + "async/" + apiVersion;
+        config.setRestEndpoint(restEndpoint);
+        config.setCompression(true);
+        config.setTraceMessage(true);
+        return new BulkConnection(config);
     }
 
     @Override
     public PartnerConnection getConnection() {
         return this.connection;
+    }
+
+    @Override
+    public BulkConnection getBulkConnection() {
+        return this.bulkConnection;
     }
 
     @OnDisabled

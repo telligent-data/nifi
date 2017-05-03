@@ -16,6 +16,7 @@
  */
 package org.apache.nifi.services.salesforce;
 
+import com.sforce.async.BulkConnection;
 import com.sforce.soap.partner.PartnerConnection;
 import org.apache.nifi.annotation.documentation.CapabilityDescription;
 import org.apache.nifi.annotation.documentation.Tags;
@@ -25,4 +26,5 @@ import org.apache.nifi.controller.ControllerService;
 @CapabilityDescription("Example Service API.")
 public interface SalesforceConnectorService extends ControllerService {
     PartnerConnection getConnection();
+    BulkConnection getBulkConnection();
 }
