@@ -158,12 +158,16 @@ public class ListUpdatedSalesforceObjects extends AbstractProcessor {
 
         try {
             final PartnerConnection connection = salesforceConnectorService.getConnection();
+
+            // End time is Server Timestamp - {endLagInSeconds} seconds
             final GregorianCalendar endTime = GregorianCalendar.from(
                     ((GregorianCalendar) connection.getServerTimestamp().getTimestamp())
                             .toZonedDateTime()
                             .minus(endLagInSeconds, ChronoUnit.SECONDS)
             );
 
+            // For start time: If the state isn't null, pull it from state. Otherwise, if INITIAL_START_LAG is set,
+            // subtract that from the end time and use that. Otherwise, subtract the default from the end time.
             GregorianCalendar startTime = (startTimeFromMap != null) ?
                     GregorianCalendar.from(ZonedDateTime.ofInstant(Instant.ofEpochMilli(startTimeFromMap), ZoneOffset.UTC))
                     : GregorianCalendar.from(

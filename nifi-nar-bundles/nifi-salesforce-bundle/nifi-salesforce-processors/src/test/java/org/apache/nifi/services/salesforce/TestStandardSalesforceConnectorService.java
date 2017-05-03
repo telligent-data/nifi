@@ -17,18 +17,25 @@
 package org.apache.nifi.services.salesforce;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonEncoding;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.soap.partner.QueryResult;
 import com.sforce.soap.partner.sobject.SObject;
 import com.sforce.ws.bind.XMLizable;
 import com.sforce.ws.bind.XmlObject;
+import org.apache.nifi.processors.salesforce.Util;
 import org.apache.nifi.processors.salesforce.WrappedSObject;
+import org.apache.nifi.processors.salesforce.XMLObjectWriter;
 import org.apache.nifi.util.TestRunner;
 import org.apache.nifi.util.TestRunners;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Iterator;
 
 import static org.junit.Assert.*;
@@ -58,6 +65,11 @@ public class TestStandardSalesforceConnectorService {
         abstract String[] getFieldsToNull();
     }
 
+    private void writeQueryResultArray(XmlObject xmlObject) {
+
+    }
+
+
     @Test
     public void testService() throws Exception {
         final TestRunner runner = TestRunners.newTestRunner(TestProcessor.class);
@@ -77,9 +89,10 @@ public class TestStandardSalesforceConnectorService {
         // test code begins here
         final PartnerConnection connection = service.getConnection();
 
+
         //final String query = "SELECT ID, AccountNumber, BillingStreet, Phone, Website, AnnualRevenue, Industry, (SELECT FirstName, LastName FROM Account.Contacts) FROM Account";
 
-        final String query = "SELECT ID, AccountNumber, BillingStreet, Phone, Website, AnnualRevenue, Industry, (SELECT FirstName, LastName FROM Account.Contacts) FROM Account";
+        final String query = "SELECT ID, AccountNumber, BillingStreet, Phone, Website, AnnualRevenue, Industry, (SELECT FirstName, LastName FROM Account.Contacts) FROM Account LIMIT 2";
 
         final QueryResult queryResult = connection.query(query);
 
@@ -87,9 +100,52 @@ public class TestStandardSalesforceConnectorService {
 
         final ObjectMapper mapper = new ObjectMapper();
 
+
+
         for (SObject sObject: queryResult.getRecords()) {
         //for (SObject sObject: sObjects) {
             System.out.println("----------------");
+
+            final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            final JsonFactory jsonFactory = new JsonFactory();
+            final JsonGenerator jsonGenerator = jsonFactory.createGenerator(outputStream, JsonEncoding.UTF8);
+
+
+            Util.writeXmlObject(sObject, jsonGenerator);
+            jsonGenerator.close();
+
+            System.out.println(new String(outputStream.toByteArray()));
+
+            /*
+            System.out.println("name: " + sObject.getName());
+            System.out.println("type: " + sObject.getType());
+            System.out.println("contacts is : " + sObject.getSObjectField("Contacts"));
+            System.out.println("children: ");
+            */
+
+            /*
+            final Iterator<XmlObject> xmlObjectIterator = sObject.getChildren();
+            while (xmlObjectIterator.hasNext()) {
+                final XmlObject xmlObject = xmlObjectIterator.next();
+
+                if ("type".equals(xmlObject.getName().getLocalPart())) {
+                    continue;
+                }
+
+
+
+                if (xmlObject instanceof SObject) {
+                    System.out.println("instance of SObject!");
+                }
+
+                System.out.println("name: " + xmlObject.getName());
+                System.out.println("type field: " + xmlObject.getField("type"));
+
+            }
+
+            */
+
+            /*
             final WrappedSObject wrapper = new WrappedSObject(sObject);
 
             //final String mapped = mapper.writeValueAsString(wrapper);
@@ -123,7 +179,11 @@ public class TestStandardSalesforceConnectorService {
             }
 
             */
+
+
         }
+
+
 
 
         // test code ends here

@@ -1,6 +1,7 @@
 package org.apache.nifi.processors.salesforce;
 
 import com.google.common.collect.ImmutableMap;
+import com.sforce.async.BulkConnection;
 import com.sforce.soap.partner.GetServerTimestampResult;
 import com.sforce.soap.partner.GetUpdatedResult;
 import com.sforce.soap.partner.PartnerConnection;
@@ -44,6 +45,9 @@ public class TestListUpdatedSalesforceObjects {
         public PartnerConnection getConnection() {
             return this.partnerConnection;
         }
+
+        @Override
+        public BulkConnection getBulkConnection() { return null; }
     }
 
     @Mock

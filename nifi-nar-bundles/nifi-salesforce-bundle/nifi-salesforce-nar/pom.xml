@@ -33,8 +33,7 @@
     <dependencies>
         <dependency>
             <groupId>org.apache.nifi</groupId>
-            <artifactId>nifi-salesforce-services-api-nar</artifactId>
-            <version>1.2.0-SNAPSHOT</version>
+            <artifactId>nifi-standard-services-api-nar</artifactId>
             <type>nar</type>
         </dependency>
         <dependency>
