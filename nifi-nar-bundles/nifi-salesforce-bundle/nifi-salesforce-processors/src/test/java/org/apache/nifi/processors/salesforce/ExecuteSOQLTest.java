@@ -1,5 +1,7 @@
 package org.apache.nifi.processors.salesforce;
 
+import com.google.common.collect.ImmutableMap;
+import org.apache.nifi.components.state.Scope;
 import org.apache.nifi.processors.cometd.ConnectSalesforceStreaming;
 import org.apache.nifi.services.salesforce.StandardSalesforceConnectorService;
 import org.apache.nifi.util.MockFlowFile;
@@ -37,13 +39,18 @@ public class ExecuteSOQLTest {
 
         runner.setProperty(ExecuteSOQL.SALESFORCE_CONNECTOR_SERVICE, "salesforce-connector");
 
-        runner.setProperty(ExecuteSOQL.QUERY, "SELECT ID, AccountNumber, BillingStreet, Phone, Website, AnnualRevenue, Industry, (SELECT FirstName, LastName FROM Account.Contacts) FROM Account LIMIT 2");
+        final String baseQuery = "SELECT Account.Id, Account.Name, Account.CreatedDate, Account.Industry, Account.SystemModstamp, Id, FirstName, LastName, Phone, SystemModstamp FROM Contact WHERE SystemModstamp > #LAST_RUN_TIME# OR Account.SystemModstamp > #LAST_RUN_TIME#";
+        runner.setProperty(ExecuteSOQL.QUERY, baseQuery);
 
         runner.assertValid();
 
+        //runner.getStateManager().setState(ImmutableMap.of(baseQuery, String.valueOf(1493946784000L)), Scope.CLUSTER);
+
         runner.run();
 
-        runner.assertAllFlowFilesTransferred(ExecuteSOQL.REL_SUCCESS, 2);
+        System.out.println(runner.getStateManager().getState(Scope.CLUSTER).toMap());
+
+        //runner.assertAllFlowFilesTransferred(ExecuteSOQL.REL_SUCCESS, 2);
         final List<MockFlowFile> mockFlowFiles = runner.getFlowFilesForRelationship(ExecuteSOQL.REL_SUCCESS);
 
         for (MockFlowFile mockFlowFile : mockFlowFiles) {
