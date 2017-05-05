@@ -42,6 +42,7 @@ public class Util {
         while (xmlObjectIterator.hasNext()) {
             final XmlObject child = xmlObjectIterator.next();
 
+
             // Only parse Id once to maintain JSON spec
             if (child.getName() != null && "Id".equals(child.getName().getLocalPart())) {
                 if (parsedId) {
@@ -49,6 +50,12 @@ public class Util {
                 } else {
                     parsedId = true;
                 }
+            }
+
+            if (child instanceof SObject) {
+                jsonGenerator.writeFieldName(child.getName().getLocalPart());
+                writeXmlObject(child, jsonGenerator);
+                continue;
             }
 
             if (child.getXmlType() != null && "QueryResult".equals(child.getXmlType().getLocalPart())) {
@@ -64,19 +71,19 @@ public class Util {
                 }
 
                 jsonGenerator.writeEndArray();
+                continue;
 
+            }
+            final Object value = child.getValue();
+            final String localName = child.getName().getLocalPart();
+            if (value == null) {
+                jsonGenerator.writeNullField(localName);
             } else {
-                final Object value = child.getValue();
-                final String localName = child.getName().getLocalPart();
-                if (value == null) {
-                    jsonGenerator.writeNullField(localName);
-                } else {
                     /*
                     jsonGenerator.writeFieldName(localName);
                     parseString((String) value, jsonGenerator);
                     */
-                    jsonGenerator.writeStringField(localName, value.toString());
-                }
+                jsonGenerator.writeStringField(localName, value.toString());
             }
         }
 

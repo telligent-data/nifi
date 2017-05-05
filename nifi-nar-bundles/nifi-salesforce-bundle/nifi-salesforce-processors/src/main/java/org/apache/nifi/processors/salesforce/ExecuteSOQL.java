@@ -52,7 +52,7 @@ import java.util.regex.Pattern;
  * Created by gene on 5/1/17.
  */
 @EventDriven
-@DefaultSchedule(period = "1 min")
+@DefaultSchedule(period = "30 sec")
 @InputRequirement(InputRequirement.Requirement.INPUT_FORBIDDEN)
 @Stateful(scopes = Scope.CLUSTER, description = "")
 @Tags({"sql", "select", "salesforce", "query", "soql"})
@@ -135,7 +135,7 @@ public class ExecuteSOQL extends AbstractProcessor {
 
     @Override
     public void onTrigger(ProcessContext context, ProcessSession session) throws ProcessException {
-            final String query = context.getProperty(QUERY).evaluateAttributeExpressions().getValue();
+        final String query = context.getProperty(QUERY).evaluateAttributeExpressions().getValue();
         final SalesforceConnectorService connectorService = context.getProperty(SALESFORCE_CONNECTOR_SERVICE).asControllerService(SalesforceConnectorService.class);
         final Boolean queryAll = context.getProperty(QUERY_ALL).asBoolean();
         final StateManager stateManager = context.getStateManager();
@@ -163,7 +163,7 @@ public class ExecuteSOQL extends AbstractProcessor {
             final long currentServerTimeEpochMilli = currentServerTime.getTimeInMillis();
 
             boolean done = false;
-            QueryResult queryResult = (queryAll) ? connection.queryAll(query) : connection.query(query);
+            QueryResult queryResult = (queryAll) ? connection.queryAll(queryReplaced) : connection.query(queryReplaced);
             final int size = queryResult.getSize();
             while (!done) {
                 for (SObject sObject : queryResult.getRecords()) {
