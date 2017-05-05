@@ -14,10 +14,15 @@ import com.sforce.ws.ConnectorConfig;
 import com.sforce.ws.bind.XmlObject;
 import org.apache.nifi.annotation.behavior.EventDriven;
 import org.apache.nifi.annotation.behavior.InputRequirement;
+import org.apache.nifi.annotation.behavior.Stateful;
 import org.apache.nifi.annotation.behavior.WritesAttribute;
+import org.apache.nifi.annotation.configuration.DefaultSchedule;
 import org.apache.nifi.annotation.documentation.CapabilityDescription;
 import org.apache.nifi.annotation.documentation.Tags;
 import org.apache.nifi.components.PropertyDescriptor;
+import org.apache.nifi.components.state.Scope;
+import org.apache.nifi.components.state.StateManager;
+import org.apache.nifi.components.state.StateMap;
 import org.apache.nifi.flowfile.FlowFile;
 import org.apache.nifi.processor.AbstractProcessor;
 import org.apache.nifi.processor.ProcessContext;
@@ -26,22 +31,30 @@ import org.apache.nifi.processor.Relationship;
 import org.apache.nifi.processor.exception.ProcessException;
 import org.apache.nifi.processor.util.StandardValidators;
 import org.apache.nifi.services.salesforce.SalesforceConnectorService;
+import sun.util.calendar.ZoneInfo;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * Created by gene on 5/1/17.
  */
 @EventDriven
+@DefaultSchedule(period = "1 min")
 @InputRequirement(InputRequirement.Requirement.INPUT_FORBIDDEN)
+@Stateful(scopes = Scope.CLUSTER, description = "")
 @Tags({"sql", "select", "salesforce", "query", "soql"})
 @CapabilityDescription("Execute provided SOQL query. Query result will be converted to JSON format."
         + " Streaming is used so arbitrarily large result sets are supported. This processor can be scheduled to run on "
@@ -50,6 +63,9 @@ import java.util.Set;
         + "select query. FlowFile attribute 'executesoql.row.count' indicates how many rows were selected.")
 @WritesAttribute(attribute="executesql.row.count", description = "Contains the number of rows returned in the select query")
 public class ExecuteSOQL extends AbstractProcessor {
+    private static final DateTimeFormatter SF_DATETIME = DateTimeFormatter.ISO_INSTANT;
+    private static final long DEFAULT_LAST_RUN_TIME = 1L;
+    private static final Pattern LAST_RUN_TIME_REGEX = Pattern.compile("#LAST_RUN_TIME#");
 
     public static final PropertyDescriptor SALESFORCE_CONNECTOR_SERVICE = new PropertyDescriptor.Builder()
             .name("salesforce-connector-service")
@@ -118,12 +134,32 @@ public class ExecuteSOQL extends AbstractProcessor {
 
     @Override
     public void onTrigger(ProcessContext context, ProcessSession session) throws ProcessException {
-        try {
-            final String query = context.getProperty(QUERY).getValue();
-            final SalesforceConnectorService connectorService = context.getProperty(SALESFORCE_CONNECTOR_SERVICE).asControllerService(SalesforceConnectorService.class);
-            final Boolean queryAll = context.getProperty(QUERY_ALL).asBoolean();
+        final String query = context.getProperty(QUERY).getValue();
+        final SalesforceConnectorService connectorService = context.getProperty(SALESFORCE_CONNECTOR_SERVICE).asControllerService(SalesforceConnectorService.class);
+        final Boolean queryAll = context.getProperty(QUERY_ALL).asBoolean();
+        final StateManager stateManager = context.getStateManager();
+        final StateMap stateMap;
 
+        try {
+            stateMap = stateManager.getState(Scope.CLUSTER);
+        } catch (final IOException ioe) {
+            getLogger().error("Failed to retrieve last succesful runtime from the State Manager. Will not perform "
+                    + "api call until this is accomplished.", ioe);
+            context.yield();
+            return;
+        }
+
+        final Map<String, String> stateMapCopy = new HashMap<>(stateMap.toMap());
+        final Long lastRunTimeFromMap = Util.parseLongOrNull(stateMapCopy.get(query));
+        final long lastRunTime = (lastRunTimeFromMap == null) ? DEFAULT_LAST_RUN_TIME : lastRunTimeFromMap;
+        final String sfFormattedLastRun = Instant.ofEpochMilli(lastRunTime).atZone(ZoneOffset.UTC).format(SF_DATETIME);
+        final String queryReplaced = LAST_RUN_TIME_REGEX.matcher(query).replaceAll(sfFormattedLastRun);
+
+        try {
             final PartnerConnection connection = connectorService.getConnection();
+            final GregorianCalendar currentServerTime = (GregorianCalendar) connection.getServerTimestamp().getTimestamp();
+
+            final long currentServerTimeEpochMilli = currentServerTime.getTimeInMillis();
 
             boolean done = false;
             QueryResult queryResult = (queryAll) ? connection.queryAll(query) : connection.query(query);
@@ -132,6 +168,9 @@ public class ExecuteSOQL extends AbstractProcessor {
                 for (SObject sObject : queryResult.getRecords()) {
                     final Map<String, String> attributeMap = new HashMap<>();
                     attributeMap.put("executesoql.row.count", String.valueOf(size));
+                    attributeMap.put("executesoql.query", String.valueOf(queryReplaced));
+                    attributeMap.put("executesoql.sf.timestamp", String.valueOf(currentServerTimeEpochMilli));
+                    attributeMap.put("executesoql.lastrun.timestamp", String.valueOf(lastRunTime));
 
                     FlowFile flowFile = session.create();
 
@@ -154,6 +193,12 @@ public class ExecuteSOQL extends AbstractProcessor {
                 }
             }
 
+            stateMapCopy.put(query, String.valueOf(currentServerTimeEpochMilli));
+            try {
+                stateManager.setState(stateMapCopy, Scope.CLUSTER);
+            } catch (IOException e) {
+                getLogger().error("Could not set state after processor execution. Duplicate data may result.", e);
+            }
             session.commit();
 
         } catch (ConnectionException e) {
