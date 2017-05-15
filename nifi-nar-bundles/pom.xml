@@ -82,7 +82,6 @@
         <module>nifi-cdc</module>
         <module>nifi-cybersecurity-bundle</module>
         <module>nifi-salesforce-bundle</module>
-    	<module>nifi-cometd-bundle</module>
         <module>nifi-parquet-bundle</module>
         <module>nifi-extension-utils</module>
   </modules>
