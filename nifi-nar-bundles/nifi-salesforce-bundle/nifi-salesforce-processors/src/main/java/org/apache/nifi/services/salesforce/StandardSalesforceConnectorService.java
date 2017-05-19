@@ -23,10 +23,13 @@ import java.util.List;
 
 import com.sforce.async.AsyncApiException;
 import com.sforce.async.BulkConnection;
+import com.sforce.soap.partner.LoginResult;
 import com.sforce.soap.partner.PartnerConnection;
+import com.sforce.soap.partner.SessionHeader_element;
 import com.sforce.ws.ConnectionException;
 import com.sforce.ws.ConnectorConfig;
 import com.sforce.ws.MessageHandler;
+import com.sforce.ws.SessionRenewer;
 import org.apache.nifi.annotation.documentation.CapabilityDescription;
 import org.apache.nifi.annotation.documentation.Tags;
 import org.apache.nifi.annotation.lifecycle.OnDisabled;
@@ -36,6 +39,8 @@ import org.apache.nifi.controller.AbstractControllerService;
 import org.apache.nifi.controller.ConfigurationContext;
 import org.apache.nifi.processor.util.StandardValidators;
 import org.apache.nifi.reporting.InitializationException;
+
+import javax.xml.namespace.QName;
 
 @Tags({ "example"})
 @CapabilityDescription("Example ControllerService implementation of SalesforceConnectorService.")
@@ -88,7 +93,7 @@ public class StandardSalesforceConnectorService extends AbstractControllerServic
     }
 
     private PartnerConnection connection;
-    private BulkConnection bulkConnection;
+    // private BulkConnection bulkConnection;
 
     @Override
     protected List<PropertyDescriptor> getSupportedPropertyDescriptors() {
@@ -110,36 +115,23 @@ public class StandardSalesforceConnectorService extends AbstractControllerServic
 
         try {
             this.connection = buildConnection(username, password, token, endpoint);
-            this.bulkConnection = buildBulkConnection(this.connection);
-        } catch (ConnectionException | AsyncApiException e) {
+            //this.bulkConnection = buildBulkConnection(this.connection);
+        } catch (ConnectionException e) {
             throw new InitializationException("Cannot create connection to Salesforce API", e);
         }
     }
 
-    protected static PartnerConnection buildConnection(String username, String password, String securityToken, String authEndpoint) throws ConnectionException {
+    protected PartnerConnection buildConnection(String username, String password, String securityToken, String authEndpoint) throws ConnectionException {
         final ConnectorConfig partnerConfig = new ConnectorConfig();
         partnerConfig.setUsername(username);
         partnerConfig.setPassword(password + securityToken);
         partnerConfig.setAuthEndpoint(authEndpoint);
-        /*
-        partnerConfig.addMessageHandler(new MessageHandler() {
-            @Override
-            public void handleRequest(URL url, byte[] bytes) {
-                System.out.println("Request Made to " + url.toString());
-                System.out.println(new String(bytes));
-            }
-
-            @Override
-            public void handleResponse(URL url, byte[] bytes) {
-                System.out.println("Response received from " + url.toString());
-                System.out.println(new String(bytes));
-            }
-        });
-        */
         partnerConfig.setTraceMessage(true);
+        partnerConfig.setSessionRenewer(new SalesforceSessionRenewer());
         return new PartnerConnection(partnerConfig);
     }
 
+    /*
     protected static BulkConnection buildBulkConnection(PartnerConnection partnerConnection) throws AsyncApiException {
         ConnectorConfig config = new ConnectorConfig();
         config.setSessionId(partnerConnection.getConfig().getSessionId());
@@ -151,16 +143,19 @@ public class StandardSalesforceConnectorService extends AbstractControllerServic
         config.setTraceMessage(true);
         return new BulkConnection(config);
     }
+    */
 
     @Override
     public PartnerConnection getConnection() {
         return this.connection;
     }
 
+    /*
     @Override
     public BulkConnection getBulkConnection() {
         return this.bulkConnection;
     }
+    */
 
     @OnDisabled
     public void shutdown() {
@@ -170,6 +165,23 @@ public class StandardSalesforceConnectorService extends AbstractControllerServic
             getLogger().error("Was unable to disconnect cleanly. Unexpected behavior may result.", e);
         } finally {
             this.connection = null;
+        }
+    }
+
+    private class SalesforceSessionRenewer implements SessionRenewer {
+        private final QName SESSION_HEADER_QNAME = new QName("urn:partner.soap.sforce.com", "SessionHeader");
+
+        @Override
+        public SessionRenewalHeader renewSession(ConnectorConfig connectorConfig) throws ConnectionException {
+            connectorConfig.setSessionId(null);
+
+            // Create a new connection (which implicitly handles the login)
+            new PartnerConnection(connectorConfig);
+            SessionRenewalHeader header = new SessionRenewalHeader();
+            header.name = SESSION_HEADER_QNAME;
+            SessionHeader_element sessionHeader_element = new SessionHeader_element();
+            sessionHeader_element.setSessionId(connectorConfig.getSessionId());
+            return header;
         }
     }
 }

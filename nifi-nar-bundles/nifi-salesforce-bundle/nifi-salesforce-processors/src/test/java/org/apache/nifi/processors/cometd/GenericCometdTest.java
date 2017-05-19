@@ -41,6 +41,7 @@ public class GenericCometdTest {
         final HttpClient httpClient = new HttpClient();
         httpClient.start();
 
+
         final BayeuxClient client = new BayeuxClient("http://localhost:9999/cometd/", new LongPollingTransport(new HashMap<>(), httpClient));
         client.handshake();
         boolean connected = client.waitFor(10000, BayeuxClient.State.CONNECTED);
@@ -51,8 +52,9 @@ public class GenericCometdTest {
                 connected
         );
 
+
         final String channel = "/topic/test";
-        this.testServer.createPersistentChannel("/topic/test");
+        this.testServer.createPersistentChannel(channel);
 
         while(true) {
             client.getChannel(channel).publish(ImmutableMap.of("testKey", "testValue"));

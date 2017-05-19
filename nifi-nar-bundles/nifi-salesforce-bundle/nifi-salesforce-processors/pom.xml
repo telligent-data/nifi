@@ -73,25 +73,25 @@
         <dependency>
             <groupId>org.cometd.java</groupId>
             <artifactId>cometd-java-client</artifactId>
-            <version>3.1.1</version>
+            <version>3.1.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>org.cometd.java</groupId>
             <artifactId>cometd-java-server</artifactId>
-            <version>3.1.1</version>
+            <version>3.1.1-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
-            <version>9.2.21.v20170120</version>
+            <version>9.4.3.v20170317</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-servlet</artifactId>
-            <version>9.2.21.v20170120</version>
+            <version>9.4.3.v20170317</version>
             <scope>test</scope>
         </dependency>
 

@@ -26,5 +26,5 @@ import org.apache.nifi.controller.ControllerService;
 @CapabilityDescription("Example Service API.")
 public interface SalesforceConnectorService extends ControllerService {
     PartnerConnection getConnection();
-    BulkConnection getBulkConnection();
+    //BulkConnection getBulkConnection();
 }
