@@ -45,9 +45,6 @@ public class TestListUpdatedSalesforceObjects {
         public PartnerConnection getConnection() {
             return this.partnerConnection;
         }
-
-        @Override
-        public BulkConnection getBulkConnection() { return null; }
     }
 
     @Mock
