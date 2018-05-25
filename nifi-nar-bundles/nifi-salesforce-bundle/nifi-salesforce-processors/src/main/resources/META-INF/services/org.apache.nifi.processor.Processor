@@ -13,5 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 org.apache.nifi.processors.salesforce.ExecuteSOQL
+org.apache.nifi.processors.salesforce.ExecuteBulkSOQL
+org.apache.nifi.processors.salesforce.EvaluateDynamicJsonPath
 org.apache.nifi.processors.cometd.ConnectSalesforceStreaming
 org.apache.nifi.processors.cometd.ConnectBayeux

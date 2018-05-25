@@ -37,7 +37,7 @@ public class ExecuteSOQLTest {
 
         runner.enableControllerService(service);
 
-        runner.setProperty(ExecuteSOQL.SALESFORCE_CONNECTOR_SERVICE, "salesforce-connector");
+        //runner.setProperty(ExecuteSOQL.SALESFORCE_CONNECTOR_SERVICE, "salesforce-connector");
 
         final String baseQuery = "SELECT Account.Id, Account.Name, Account.CreatedDate, Account.Industry, Account.SystemModstamp, Id, FirstName, LastName, Phone, SystemModstamp FROM Contact WHERE SystemModstamp > #LAST_RUN_TIME# OR Account.SystemModstamp > #LAST_RUN_TIME#";
         runner.setProperty(ExecuteSOQL.QUERY, baseQuery);
